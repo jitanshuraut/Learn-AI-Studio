@@ -3,6 +3,7 @@ import AboutSection from "@/components/about-section";
 import HeroSection from "@/components/hero-section";
 import HowItWorks from "@/components/how-It-works";
 import KeyFeatures from "@/components/key-features";
+import Testimonials from "@/components/testimonials";
 import Section from "@/components/ui/Section";
 
 export default function Home() {
@@ -23,11 +24,13 @@ export default function Home() {
           <KeyFeatures />
         </Section>
 
-        <div>
-          <Section>
-            <HowItWorks />
-          </Section>
-        </div>
+        <Section>
+          <HowItWorks />
+        </Section>
+
+        <Section>
+          <Testimonials />
+        </Section>
       </div>
     </>
   );
