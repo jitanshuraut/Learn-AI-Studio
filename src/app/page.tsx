@@ -1,6 +1,7 @@
 "use client";
 import AboutSection from "@/components/about-section";
 import { FAQ } from "@/components/faq-section";
+import Footer from "@/components/footer-section";
 import HeroSection from "@/components/hero-section";
 import HowItWorks from "@/components/how-It-works";
 import KeyFeatures from "@/components/key-features";
@@ -35,6 +36,10 @@ export default function Home() {
 
         <Section>
           <FAQ />
+        </Section>
+
+        <Section>
+          <Footer />
         </Section>
       </div>
     </>
