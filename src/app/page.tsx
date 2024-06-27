@@ -1,5 +1,9 @@
 "use client";
+import AboutSection from "@/components/about-section";
 import HeroSection from "@/components/hero-section";
+import HowItWorks from "@/components/how-It-works";
+import KeyFeatures from "@/components/key-features";
+import Section from "@/components/ui/Section";
 
 export default function Home() {
   return (
@@ -8,7 +12,22 @@ export default function Home() {
         <div>
           <HeroSection />
         </div>
-        <div className="h-[100vh]"></div>
+
+        <div className="my-3">
+          <Section>
+            <AboutSection />
+          </Section>
+        </div>
+
+        <Section>
+          <KeyFeatures />
+        </Section>
+
+        <div>
+          <Section>
+            <HowItWorks />
+          </Section>
+        </div>
       </div>
     </>
   );

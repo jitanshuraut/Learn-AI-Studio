@@ -22,8 +22,8 @@ export const navItems = [
 ];
 
 export const metadata = {
-  title: "KiNFiSH - Dumps all over the internet",
-  description: "a place where farms comes to reality",
+  title: "LearnAI Studio",
+  description: "Transforming prompts into personalized learning experiences with AI",
 };
 
 const fontHeading = localFont({
