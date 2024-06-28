@@ -10,7 +10,7 @@ import Section from "@/components/ui/Section";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
 import FloatingNav from "@/components/ui/floating-navbar";
 
-export const navItems = [
+const navItems = [
   {
     name: "Home",
     link: "/",
