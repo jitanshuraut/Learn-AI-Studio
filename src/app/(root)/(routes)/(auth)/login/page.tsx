@@ -53,7 +53,7 @@ export default function Page() {
         if (data?.success) {
           toast.success(data.success)
           form.reset({ email: '', password: '' })
-          window.location.href = '/'
+          window.location.href = '/dashboard'
         }
       })
     })

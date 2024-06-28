@@ -7,10 +7,27 @@ import HowItWorks from "@/components/how-It-works";
 import KeyFeatures from "@/components/key-features";
 import Testimonials from "@/components/testimonials";
 import Section from "@/components/ui/Section";
+import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
+import FloatingNav from "@/components/ui/floating-navbar";
 
+export const navItems = [
+  {
+    name: "Home",
+    link: "/",
+    icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
+  },
+  {
+    name: "About",
+    link: "/posts",
+    icon: <IconUser className="h-4 w-4 text-neutral-500 dark:text-white" />,
+  },
+];
 export default function Home() {
   return (
     <>
+      <header>
+        <FloatingNav navItems={navItems} />
+      </header>
       <div className="w-full flex flex-col justify-center items-center gap-6 font-subalt ">
         <div>
           <HeroSection />

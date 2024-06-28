@@ -7,7 +7,7 @@ import { FaGithub, FaGoogle } from 'react-icons/fa'
 export const Social = () => {
   const onClick = (provider: 'google' | 'github') => {
     signIn(provider, {
-      callbackUrl: '/'
+      callbackUrl: '/dashboard'
     })
   }
   return (

@@ -3,5 +3,8 @@
 import { signOut } from '../../auth'
 
 export const logout = async () => {
-  await signOut()
+  const val= await signOut()
+  console.log(val)
+
+
 }
