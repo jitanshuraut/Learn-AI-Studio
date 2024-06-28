@@ -18,12 +18,7 @@ export const Social = () => {
       >
         <FaGoogle className="mr-2" /> Google
       </Button>
-      <Button
-        className="rounded-[5px] w-full border border-primary/20 bg-secondary text-primary hover:bg-primary/10 text-md"
-        onClick={() => onClick('github')}
-      >
-        <FaGithub className="mr-2" /> Github
-      </Button>
+     
     </div>
   )
 }
