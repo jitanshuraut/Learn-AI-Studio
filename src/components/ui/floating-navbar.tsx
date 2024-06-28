@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Icon } from "./card-binary";
 import { ModeToggle } from "../mode-toggle";
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from "next/navigation";
 
 const FloatingNav = ({
   navItems,
@@ -27,11 +27,13 @@ const FloatingNav = ({
 
   const [visible, setVisible] = useState(false);
   let previousValue = scrollYProgress.getPrevious() ?? 0;
-  const router = useRouter()
+  const router = useRouter();
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     let direction = current - previousValue;
+    console.log(direction);
+    console.log("printing:", scrollYProgress.get());
 
-    if (scrollYProgress.get() < 0.05) {
+    if (scrollYProgress.get() < 0.5) {
       setVisible(true);
     } else {
       if (direction < 0) {
@@ -80,7 +82,12 @@ const FloatingNav = ({
               </Link>
             ))}
             <ModeToggle />
-            <button className="relative py-2 px-4 text-sm font-medium text-black rounded-full border dark:text-white border-neutral-200 dark:border-white/[0.2]" onClick={()=>{router.push("/register")}}>
+            <button
+              className="relative py-2 px-4 text-sm font-medium text-black rounded-full border dark:text-white border-neutral-200 dark:border-white/[0.2]"
+              onClick={() => {
+                router.push("/register");
+              }}
+            >
               <span>Login</span>
               <span className="absolute inset-x-0 -bottom-px mx-auto w-1/2 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
             </button>
