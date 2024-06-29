@@ -1,22 +1,22 @@
 import * as z from "zod";
 import Image from "next/image";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
 import { Github, Twitter, Facebook } from "lucide-react";
 
 import Logo from "../../../public/next.svg";
 import { Button } from "../ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+// import {
+//   Form,
+//   FormControl,
+//   FormDescription,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from "@/components/ui/form";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -26,17 +26,17 @@ const formSchema = z.object({
 
 export default function Footer() {
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-    },
-  });
+  // const form = useForm<z.infer<typeof formSchema>>({
+  //   resolver: zodResolver(formSchema),
+  //   defaultValues: {
+  //     email: "",
+  //   },
+  // });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  // // 2. Define a submit handler.
+  // function onSubmit(values: z.infer<typeof formSchema>) {
+  //   console.log(values);
+  // }
   return (
     <footer>
       <div>
@@ -76,7 +76,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <Form {...form}>
+          {/* <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="not-prose space-y-4"
@@ -101,7 +101,7 @@ export default function Footer() {
               />
               <Button type="submit">Submit</Button>
             </form>
-          </Form>
+          </Form> */}
         </div>
 
         <div className="mt-4 p-3 items-center justify-between border-t text-sm md:flex">

@@ -1,4 +1,3 @@
-"use client";
 import AboutSection from "@/components/about-section";
 import { FAQ } from "@/components/faq-section";
 import Footer from "@/components/footer-section";
@@ -24,7 +23,7 @@ const navItems = [
 ];
 export default function Home() {
   return (
-    <>
+    <div>
       <header>
         <FloatingNav navItems={navItems} />
       </header>
@@ -59,6 +58,6 @@ export default function Home() {
           <Footer />
         </Section>
       </div>
-    </>
+    </div>
   );
 }

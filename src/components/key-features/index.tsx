@@ -57,7 +57,7 @@ const singleFeatureText: FeatureText[] = [
 
 function KeyFeatures() {
   return (
-    <>
+   
       <div className="flex flex-col gap-6">
         <h1 className="text-7xl text-[#8678F9] text-center font-headingAlt font-bold">
           Features
@@ -121,7 +121,7 @@ function KeyFeatures() {
           )}
         </div>
       </div>
-    </>
+ 
   );
 }
 

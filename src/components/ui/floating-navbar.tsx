@@ -28,18 +28,20 @@ const FloatingNav = ({
   const [visible, setVisible] = useState(false);
   let previousValue = scrollYProgress.getPrevious() ?? 0;
   const router = useRouter();
-  useMotionValueEvent(scrollYProgress, "change", (current) => {
-    let direction = current - previousValue;
-    console.log(direction);
-    console.log("printing:", scrollYProgress.get());
 
-    if (scrollYProgress.get() < 0.5) {
-      setVisible(true);
-    } else {
-      if (direction < 0) {
-        setVisible(true);
-      } else {
+  useMotionValueEvent(scrollYProgress, "change", (current) => {
+    // Check if current is not undefined and is a number
+    if (typeof current === "number") {
+      let direction = current! - scrollYProgress.getPrevious()!;
+
+      if (scrollYProgress.get() < 0.05) {
         setVisible(false);
+      } else {
+        if (direction < 0) {
+          setVisible(true);
+        } else {
+          setVisible(false);
+        }
       }
     }
   });
@@ -58,7 +60,7 @@ const FloatingNav = ({
           transition={{
             duration: 0.2,
           }}
-          className="border border-black/[0.2] bg-gradient-to-tr from-purple-400/20 to-transparent dark:border-white/[0.2] flex flex-col items-center justify-center  max-w-sm mx-auto p-4 relative h-[55px] backdrop-blur-2xl  w-full "
+          className="border border-black/[0.2] bg-gradient-to-tr from-purple-400/20 to-transparent dark:border-white/[0.2] flex flex-col items-center justify-center  max-w-sm mx-auto p-4 relative h-[55px] backdrop-blur-sm  w-full "
         >
           <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
           <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
@@ -74,8 +76,7 @@ const FloatingNav = ({
                   "relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
                 )}
               >
-                {/* <span className="block sm:hidden">{navItem.icon}</span> */}
-                <span className="hidden text-sm sm:block mr-[1.20rem]">
+                <span className="hidden text-sm sm:block mr-[1.20rem] font-bold">
                   {navItem.name}
                 </span>{" "}
                 <Icon className=" h-6 w-6 bg-transparent text-gray-300/40 transform rotate-45 mx-20 " />

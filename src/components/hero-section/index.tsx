@@ -4,12 +4,12 @@ import React from "react";
 import { Button } from "../ui/button";
 import Feeder from "../ui/feeder";
 import Spotlight from "../ui/Spotlight";
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function HeroSection() {
   const ref = React.useRef(null);
   const isInView = useInView(ref);
-  const router = useRouter()
+  const router = useRouter();
 
   const FADE_DOWN_ANIMATION_VARIANTS = {
     hidden: { opacity: 0, y: -10 },
@@ -62,7 +62,14 @@ export default function HeroSection() {
             className="mt-10 flex items-center justify-center gap-x-6 "
           >
             <div className="z-50 w-[60%] mx-auto">
-              <Button className="w-[50%]" onClick={()=>{router.push("/register")}}>Get started</Button>
+              <Button
+                className="w-[50%]"
+                onClick={() => {
+                  router.push("/register");
+                }}
+              >
+                Get started
+              </Button>
             </div>
           </motion.div>
         </motion.div>
