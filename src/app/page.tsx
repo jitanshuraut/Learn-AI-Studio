@@ -1,13 +1,13 @@
-import AboutSection from "@/components/about-section";
-import { FAQ } from "@/components/faq-section";
-import Footer from "@/components/footer-section";
-import HeroSection from "@/components/hero-section";
-import HowItWorks from "@/components/how-It-works";
-import KeyFeatures from "@/components/key-features";
-import Testimonials from "@/components/testimonials";
-import Section from "@/components/ui/Section";
+import AboutSection from "@/components/LandingPage-Sections/about-section";
+import { FAQ } from "@/components/LandingPage-Sections/faq-section";
+import Footer from "@/components/LandingPage-Sections/footer-section";
+import HeroSection from "@/components/LandingPage-Sections/hero-section";
+import HowItWorks from "@/components/LandingPage-Sections/how-It-works";
+import KeyFeatures from "@/components/LandingPage-Sections/key-features";
+import Testimonials from "@/components/LandingPage-Sections/testimonials";
+import Section from "@/components/ui/LandingPage/Section";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
-import FloatingNav from "@/components/ui/floating-navbar";
+import FloatingNav from "@/components/ui/LandingPage/floating-navbar";
 
 const navItems = [
   {

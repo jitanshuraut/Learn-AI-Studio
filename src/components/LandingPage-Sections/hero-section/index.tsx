@@ -1,9 +1,9 @@
 "use client";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import React from "react";
-import { Button } from "../ui/button";
-import Feeder from "../ui/feeder";
-import Spotlight from "../ui/Spotlight";
+import { Button } from "../../ui/button";
+import Feeder from "../../ui/LandingPage/feeder";
+import Spotlight from "../../ui/LandingPage/Spotlight";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function HeroSection() {

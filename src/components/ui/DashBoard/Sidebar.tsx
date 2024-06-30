@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Brain, Boxes, DollarSign } from "lucide-react";
 import { logout } from "@/actions/logout";
-import { Button } from "./ui/button";
+import { Button } from "../button";
 import { useRouter } from "next/navigation";
 
 function Navbar() {

@@ -1,5 +1,5 @@
 import Image from "next/image"; // Adjust this import based on your actual Image component
-import PlusSvg from "../../../public/assets/svg/PlusSvg";
+import PlusSvg from "../../../../public/assets/svg/PlusSvg";
 
 interface SectionProps {
   children?: any;

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import Marquee from "@/components/ui/marquee";
+import Marquee from "@/components/ui/LandingPage/marquee";
 import Image from "next/image";
 
 const reviews = [
@@ -88,9 +88,9 @@ const ReviewCard = ({
 function Testimonials() {
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background py-20 md:shadow-xl">
-         <h1 className="text-7xl text-[#8678F9] text-center font-headingAlt font-bold">
-         Testimonials
-        </h1>
+      <h1 className="text-7xl text-[#8678F9] text-center font-headingAlt font-bold">
+        Testimonials
+      </h1>
       <Marquee pauseOnHover className="[--duration:20s]">
         {firstRow.map((review) => (
           <ReviewCard key={review.username} {...review} />

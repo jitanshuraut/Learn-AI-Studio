@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Icon } from "./card-binary";
-import { ModeToggle } from "../mode-toggle";
+import { ModeToggle } from "../../mode-toggle";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const FloatingNav = ({

@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Placeholder from "../../../public/dummy.png";
-import { Button } from "../ui/button";
+
+import { Button } from "../../ui/button";
 
 function AboutSection() {
   return (
@@ -10,7 +10,9 @@ function AboutSection() {
       <div className="flex justify-between">
         <div className="md:w-[30%] w-auto flex h-96 overflow-hidden rounded-lg border">
           <Image
-            src={Placeholder}
+            src="/dummy.png"
+            width={200}
+            height={200}
             alt="placeholder"
             className="w-full object-contain"
           />

@@ -1,10 +1,10 @@
-import Navbar from "@/components/Sidebar";
-import Top_Bar from "@/components/Top-Bar";
+import Navbar from "@/components/ui/DashBoard/Sidebar";
+import Top_Bar from "@/components/ui/DashBoard/Top-Bar";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="grid h-[100vh] w-full  md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <Navbar   />
+      <Navbar />
       <div className="flex flex-col z-90">
         <Top_Bar />
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { PlaceholdersAndVanishInput } from "@/components/placeholders-and-vanish-input";
+import { PlaceholdersAndVanishInput } from "@/components/ui/DashBoard/placeholders-and-vanish-input";
 
 export function Placeholders() {
   const placeholders = [

@@ -9,9 +9,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/components/ui/LandingPage/form";
 import { RegisterSchema } from "@/schemas";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/LandingPage/input";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
 import { useTransition } from "react";

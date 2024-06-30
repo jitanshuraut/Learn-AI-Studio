@@ -4,10 +4,8 @@ import Link from "next/link";
 // import { useForm } from "react-hook-form";
 // import { zodResolver } from "@hookform/resolvers/zod";
 import { Github, Twitter, Facebook } from "lucide-react";
-
-import Logo from "../../../public/next.svg";
-import { Button } from "../ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "../../ui/button";
+import { Input } from "@/components/ui/LandingPage/input";
 // import {
 //   Form,
 //   FormControl,
@@ -45,7 +43,7 @@ export default function Footer() {
             <Link href="/">
               <h3 className="sr-only">brijr/components</h3>
               <Image
-                src={Logo}
+                src="/dummy.png"
                 alt="Logo"
                 width={120}
                 height={27.27}

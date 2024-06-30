@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Button } from "@react-email/components";
 import ButtonStd from "@/components/ui/button-std";
 import { ArrowUpRight } from "lucide-react";
-import Coursescard from "@/components/ui/courses-card";
+import Coursescard from "@/components/ui/DashBoard/courses-card";
 
 function page() {
   return (

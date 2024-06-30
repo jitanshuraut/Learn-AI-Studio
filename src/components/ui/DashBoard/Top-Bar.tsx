@@ -14,7 +14,7 @@ import {
   Users,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "./badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,9 +22,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+} from "@/components/ui/LandingPage/card";
+import { Input } from "@/components/ui/LandingPage/input";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/DashBoard/sheet";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import Image from "next/image";
 

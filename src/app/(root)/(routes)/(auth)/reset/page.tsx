@@ -1,47 +1,47 @@
-'use client'
-import * as z from 'zod'
-import { CardWrapper } from '@/components/auth/card-wrapper'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+"use client";
+import * as z from "zod";
+import { CardWrapper } from "@/components/auth/card-wrapper";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { ResetSchema } from '@/schemas'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+  FormMessage,
+} from "@/components/ui/LandingPage/form";
+import { ResetSchema } from "@/schemas";
+import { Input } from "@/components/ui/LandingPage/input";
+import { Button } from "@/components/ui/button";
 
-import { useState, useTransition } from 'react'
-import { reset } from '@/actions/reset'
-import { toast } from 'react-hot-toast'
+import { useState, useTransition } from "react";
+import { reset } from "@/actions/reset";
+import { toast } from "react-hot-toast";
 
 export default function ResetForm() {
-  const [isPending, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
-      email: ''
-    }
-  })
+      email: "",
+    },
+  });
 
   const onSubmit = (values: z.infer<typeof ResetSchema>) => {
     startTransition(() => {
       reset(values).then((data) => {
         if (data?.error) {
-          toast.error(data.error)
+          toast.error(data.error);
         }
         if (data?.success) {
-          toast.success(data.success)
-          form.reset({ email: '' })
+          toast.success(data.success);
+          form.reset({ email: "" });
         }
-      })
-    })
-  }
+      });
+    });
+  };
 
   return (
     <CardWrapper
@@ -82,5 +82,5 @@ export default function ResetForm() {
         </form>
       </Form>
     </CardWrapper>
-  )
+  );
 }

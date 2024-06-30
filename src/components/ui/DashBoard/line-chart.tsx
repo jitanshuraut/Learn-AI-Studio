@@ -6,11 +6,25 @@ import {
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 import { DollarSign } from "lucide-react";
 
 export type LineGraphProps = {
   data: { week: string; credit: number }[];
+};
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white text-black p-2">
+        <p className="label">{`Weeks: ${label}`}</p>
+        <p className="label">{`Credits: ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+
+  return null;
 };
 
 export default function LineGraph({ data }: LineGraphProps) {
@@ -35,7 +49,7 @@ export default function LineGraph({ data }: LineGraphProps) {
             dataKey="week"
             tickLine={false}
             axisLine={true}
-            stroke={"#fff"}
+            stroke={"#8678F9"}
             fontSize={13}
             padding={{ left: 0, right: 0 }}
           />
@@ -52,10 +66,9 @@ export default function LineGraph({ data }: LineGraphProps) {
             strokeDasharray="2 2"
             className="opacity-25"
           />
+          <Tooltip content={CustomTooltip} />
         </LineChart>
       </ResponsiveContainer>
     </div>
   );
 }
-
-

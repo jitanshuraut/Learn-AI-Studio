@@ -1,63 +1,63 @@
-'use client'
-import * as z from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+"use client";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { LoginSchema } from '@/schemas'
-import { Input } from '@/components/ui/input'
-import { CardWrapper } from '@/components/auth/card-wrapper'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
-import { useEffect, useRef, useTransition } from 'react'
-import { login } from '@/actions/login'
-import toast from 'react-hot-toast'
+  FormMessage,
+} from "@/components/ui/LandingPage/form";
+import { LoginSchema } from "@/schemas";
+import { Input } from "@/components/ui/LandingPage/input";
+import { CardWrapper } from "@/components/auth/card-wrapper";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useRef, useTransition } from "react";
+import { login } from "@/actions/login";
+import toast from "react-hot-toast";
 
 export default function Page() {
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
   const urlError =
-    searchParams.get('error') === 'OAuthAccountNotLinked'
-      ? 'Email already in use with different provider!'
-      : ''
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different provider!"
+      : "";
 
-  const [isPending, startTransition] = useTransition()
-  const hasDisplayedError = useRef(false)
+  const [isPending, startTransition] = useTransition();
+  const hasDisplayedError = useRef(false);
   useEffect(() => {
     if (urlError && !hasDisplayedError.current) {
-      toast.error(urlError)
-      hasDisplayedError.current = true
+      toast.error(urlError);
+      hasDisplayedError.current = true;
     }
-  }, [urlError])
+  }, [urlError]);
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: '',
-      password: ''
-    }
-  })
+      email: "",
+      password: "",
+    },
+  });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransition(() => {
       login(values).then((data) => {
         if (data?.error) {
-          toast.error(data.error)
+          toast.error(data.error);
         }
         if (data?.success) {
-          toast.success(data.success)
-          form.reset({ email: '', password: '' })
-          window.location.href = '/dashboard'
+          toast.success(data.success);
+          form.reset({ email: "", password: "" });
+          window.location.href = "/dashboard";
         }
-      })
-    })
-  }
+      });
+    });
+  };
   return (
     <CardWrapper
       headerTitle="Login"
@@ -120,5 +120,5 @@ export default function Page() {
         </form>
       </Form>
     </CardWrapper>
-  )
+  );
 }
