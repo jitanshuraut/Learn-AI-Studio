@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Brain, Boxes, DollarSign } from "lucide-react";
 import { logout } from "@/actions/logout";
 import { Button } from "../button";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 function Navbar() {
@@ -20,6 +21,12 @@ function Navbar() {
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
+            <Image 
+            src="/dummy.png"
+            width={40}
+            height={40}
+            className="rounded-xl"
+            />
               <span className="text-[#8678F9]">Ai-Learn Studio</span>
             </Link>
           </div>

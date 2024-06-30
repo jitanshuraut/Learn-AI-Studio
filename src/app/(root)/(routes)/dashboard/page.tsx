@@ -1,4 +1,4 @@
-import { Placeholders } from "@/components/LandingPage-Sections/generator";
+import { Placeholders } from "@/components/generator";
 import React from "react";
 
 function page() {

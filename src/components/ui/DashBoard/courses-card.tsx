@@ -25,7 +25,7 @@ function Coursescard() {
         </div>
         <p>60%</p>
         <button className="bg-white text-black px-2 py-1 rounded-md w-[30%] flex justify-between items-center ">
-          continue <ArrowUpRight size={16} strokeWidth={1} />
+          continue <ArrowUpRight size={16} />
         </button>
       </div>
     </div>
