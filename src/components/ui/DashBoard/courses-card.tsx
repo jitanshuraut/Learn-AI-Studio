@@ -12,7 +12,7 @@ function Coursescard() {
         alt="courses image"
         className="object-contain rounded-lg"
       />
-      <h1 className="font-bold mt-5 text-xl">
+      <h1 className="font-bold mt-5 text-2xl">
         Introduction to Machine learning
       </h1>
       <p className="text-gray-400 text-sm mt-1">

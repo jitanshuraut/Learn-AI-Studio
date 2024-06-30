@@ -24,6 +24,7 @@ function Navbar() {
             <Image 
             src="/dummy.png"
             width={40}
+            alt="logo"
             height={40}
             className="rounded-xl"
             />
