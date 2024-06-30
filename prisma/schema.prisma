@@ -8,32 +8,32 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-
-
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   password      String?
   accounts      Account[]
-  createdAt     DateTime  @default(now())
+  createdAt     DateTime   @default(now())
+  courses       Course[]
+  progress      Progress[]
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -50,12 +50,82 @@ model VerificationToken {
 }
 
 model PasswordResetToken {
-  id       String   @id @default(cuid())
-  email    String
-  token    String   @unique
-  expires  DateTime
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
 
   @@unique([email, token])
 }
 
+model Course {
+  id           Int        @id @default(autoincrement())
+  userId       String
+  courseName   String
+  numberOfDays Int
+  structure    Json
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  user         User       @relation(fields: [userId], references: [id])
+  modules      Module[]
+  progress     Progress[]
 
+  @@map("courses")
+}
+
+model Module {
+  id           Int          @id @default(autoincrement())
+  courseId     Int
+  dayNumber    Int
+  moduleNumber Int
+  title        String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  course       Course       @relation(fields: [courseId], references: [id])
+  topics       Topic[]
+  assessments  Assessment[]
+  progress     Progress[]
+
+  @@map("modules")
+}
+
+model Topic {
+  id        Int      @id @default(autoincrement())
+  moduleId  Int
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  module    Module   @relation(fields: [moduleId], references: [id])
+
+  @@map("topics")
+}
+
+model Assessment {
+  id        Int      @id @default(autoincrement())
+  moduleId  Int
+  type      String
+  question  String
+  options   Json
+  answer    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  module    Module   @relation(fields: [moduleId], references: [id])
+
+  @@map("assessments")
+}
+
+model Progress {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  courseId  Int
+  moduleId  Int
+  status    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+  module    Module   @relation(fields: [moduleId], references: [id])
+
+  @@map("progress")
+}
