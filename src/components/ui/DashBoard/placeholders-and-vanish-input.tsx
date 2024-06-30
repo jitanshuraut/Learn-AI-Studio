@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 interface CourseCardProps {
   day: string;
@@ -323,12 +324,13 @@ export function PlaceholdersAndVanishInput({
             <h1 className="text-2xl font-extrabold text-[#8678F9] mt-3">
               Introduction to Machine Learning
             </h1>
-            <button
+            <Link
               className="mt-5 z-10 px-2 py-1 flex items-center justify-between bg-white text-black rounded-md cursor-pointer"
-              onClick={() => alert("ji")}
+              href={"/course/1/12"}
+              target="_blank"
             >
-              Check it out <ArrowUpRight size={16} className="ml-2"/>
-            </button>
+              Check it out <ArrowUpRight size={16} className="ml-2" />
+            </Link>
           </div>
 
           <p className="text-gray-400 text-sm mt-1">
