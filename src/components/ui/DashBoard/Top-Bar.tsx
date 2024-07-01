@@ -120,7 +120,7 @@ function Top_Bar() {
           />
         ) : (
           <Image
-            src="./profile.png"
+            src="/profile.png"
             alt="User Image"
             width={50}
             height={50}

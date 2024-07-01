@@ -1,3 +1,4 @@
+"use client";
 import AboutSection from "@/components/LandingPage-Sections/about-section";
 import { FAQ } from "@/components/LandingPage-Sections/faq-section";
 import Footer from "@/components/LandingPage-Sections/footer-section";
@@ -8,6 +9,7 @@ import Testimonials from "@/components/LandingPage-Sections/testimonials";
 import Section from "@/components/ui/LandingPage/Section";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
 import FloatingNav from "@/components/ui/LandingPage/floating-navbar";
+
 
 const navItems = [
   {
@@ -22,8 +24,11 @@ const navItems = [
   },
 ];
 export default function Home() {
+
   return (
     <div>
+   
+
       <header>
         <FloatingNav navItems={navItems} />
       </header>
