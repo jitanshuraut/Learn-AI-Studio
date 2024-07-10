@@ -1,9 +1,9 @@
 import { db } from "@/lib/db"
 import { NextApiRequest, NextApiResponse } from 'next';
-import { NextResponse } from "next/server";
+import { NextResponse,NextRequest } from "next/server";
 
 
-export async function GET(req: NextApiRequest, { params }: { params: { slug: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
     const UserId = params.slug
 
     const courses = await db.course.findMany({
