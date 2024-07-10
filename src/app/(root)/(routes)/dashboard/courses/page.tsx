@@ -41,7 +41,7 @@ const CoursesList = ({ userId }: { userId: string }) => {
     <>
       {courses &&
         courses.map((course: any) => (
-          <Coursescard key={course.id} course={course} />
+          <Coursescard key={course.id}  />
         ))}
     </>
   );
@@ -49,7 +49,7 @@ const CoursesList = ({ userId }: { userId: string }) => {
 
 function Page() {
   const session = useCurrentUser();
-  const userId: string = session?.id;
+  const userId: any = session?.id;
   console.log(userId);
 
   if (!userId) {
