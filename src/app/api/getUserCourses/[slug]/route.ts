@@ -1,5 +1,4 @@
 import { db } from "@/lib/db"
-import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse,NextRequest } from "next/server";
 
 
@@ -11,9 +10,9 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
             userId: UserId,
         },
         include: {
-            user: true,         // Include the related User
-            modules: true,      // Include the related Modules
-            progress: true,     // Include the related Progress
+            user: true,         
+            modules: true,      
+            progress: true,     
         },
     });
     return new NextResponse(JSON.stringify(courses), {
