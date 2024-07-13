@@ -1,11 +1,8 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse, NextRequest } from "next/server";
 import { CHECKER, GENRATE_OUTLINE } from "../../../../promt";
+import { model } from "../../../../genAI";
 
-const API_KEY: string = process.env.GENAI || "";
 
-const genAI: any = new GoogleGenerativeAI(API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 interface CourseStatus {
     message: string;
@@ -53,11 +50,11 @@ export async function POST(req: NextRequest) {
             const module_text = extractAndParseJSON(response.text());
             console.log(module_text);
             return NextResponse.json(module_text)
-            
+
         }
     }
     catch (err) {
-
+        console.log(err);
     }
 
 
