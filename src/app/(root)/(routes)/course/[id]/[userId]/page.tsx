@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -53,6 +53,8 @@ const Home: React.FC = () => {
   };
 
   const markdown: string = `## Footnote \n * [x] done`;
+
+ 
 
   return (
     <div className="flex">

@@ -18,7 +18,10 @@ import { useTransition } from "react";
 import { register } from "@/actions/register";
 import toast from "react-hot-toast";
 
+
 export default function Page() {
+
+
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({

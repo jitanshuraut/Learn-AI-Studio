@@ -5,21 +5,29 @@ import { Button } from "../../ui/button";
 import Feeder from "../../ui/LandingPage/feeder";
 import Spotlight from "../../ui/LandingPage/Spotlight";
 import { useRouter, useSearchParams } from "next/navigation";
-
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export default function HeroSection() {
   const ref = React.useRef(null);
   const isInView = useInView(ref);
   const router = useRouter();
+  const session: any = useCurrentUser();
 
   const FADE_DOWN_ANIMATION_VARIANTS = {
     hidden: { opacity: 0, y: -10 },
     show: { opacity: 1, y: 0, transition: { type: "spring" } },
   };
-  // const notify = () => toast('Here is your toast.', {position: 'top-right'});
+
+  const handelGetStarted = () => {
+    if (session) {
+      router.push("/dashboard");
+    } else {
+      router.push("/register");
+    }
+  };
+
   return (
     <div className="mx-auto max-w-6xl mt-12 px-6 lg:px-8 bg-transparent relative">
-      
       <div className="max-w-4xl absolute">
         <Spotlight fill="#9284D4" />
       </div>
@@ -68,7 +76,7 @@ export default function HeroSection() {
               <Button
                 className="w-[50%]"
                 onClick={() => {
-                  router.push("/register");
+                  handelGetStarted();
                 }}
               >
                 Get started

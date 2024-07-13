@@ -3,66 +3,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
 
-interface CourseCardProps {
-  day: string;
-  modules: string[];
-}
 
-const CourseCard = ({ day, modules }: CourseCardProps) => {
-  return (
-    <div className="border rounded-lg shadow-lg p-4 m-4">
-      <h2 className="text-md font-bold mb-4 text-[#8678F9]">{day}</h2>
-      <ul className="list-disc pl-5">
-        {modules.map((module, index) => (
-          <li key={index} className="mb-1 text-sm ">
-            {module}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
 
-const courseData: Record<string, string[]> = {
-  "Day 1": [
-    "Day 1 - Module 1: Understanding LinkedIn's Algorithm and Content Visibility",
-    "Day 1 - Module 2: Identifying Your Target Audience and Defining Your Content Goals",
-    "Day 1 - Module 3: Mastering LinkedIn Content Formats: Articles, Posts, and Updates",
-  ],
-  "Day 2": [
-    "Day 2 - Module 1: Crafting Compelling Headlines that Grab Attention",
-    "Day 2 - Module 2: Writing Engaging Introductions that Hook Your Audience",
-    "Day 2 - Module 3: Building Narrative and Storytelling for Impactful Content",
-  ],
-  "Day 3": [
-    "Day 3 - Module 1: Utilizing Visuals, Images, and Videos to Enhance Engagement",
-    "Day 3 - Module 2: Incorporating Calls to Action for Desired Outcomes",
-    "Day 3 - Module 3: Building Your LinkedIn Content Calendar and Posting Strategy",
-  ],
-  "Day 4": [
-    "Day 4 - Module 1: Leveraging Hashtags and Keywords for Discoverability",
-    "Day 4 - Module 2: Engaging with Your Audience: Comments, Replies, and Interactions",
-    "Day 4 - Module 3: Analyzing Content Performance and Optimizing for Growth",
-  ],
-  "Day 5": [
-    "Day 5 - Module 1: Content Curation and Sharing Relevant Industry Insights",
-    "Day 5 - Module 2:  Building Relationships and Collaborating with Influencers",
-    "Day 5 - Module 3:  Utilizing LinkedIn Analytics and Data for Informed Decision Making",
-  ],
-  "Day 6": [
-    "Day 6 - Module 1: Writing for Different LinkedIn Content Types: Company Pages, Groups, and Events",
-    "Day 6 - Module 2:  Promoting Your LinkedIn Content: Cross-Platform Sharing and Amplification",
-    "Day 6 - Module 3: Ethical Considerations and Best Practices for LinkedIn Content Writing",
-  ],
-  "Day 7": [
-    "Day 7 - Module 1:  Case Studies and Examples of High-Engagement LinkedIn Content",
-    "Day 7 - Module 2:  Content Tools and Resources for LinkedIn Content Writers",
-    "Day 7 - Module 3:  Building a Strong LinkedIn Profile for Content Amplification",
-  ],
-};
 
 export function PlaceholdersAndVanishInput({
   placeholders,
@@ -200,22 +143,11 @@ export function PlaceholdersAndVanishInput({
   };
 
   const vanishAndSubmit = () => {
-    setAnimating(true);
-    draw();
-
-    const value = inputRef.current?.value || "";
-    if (value && inputRef.current) {
-      const maxX = newDataRef.current.reduce(
-        (prev, current) => (current.x > prev ? current.x : prev),
-        0
-      );
-      animate(maxX);
-    }
+    console.log("VanishAndSubmit");
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    vanishAndSubmit();
     onSubmit && onSubmit(e);
   };
   return (
@@ -318,32 +250,6 @@ export function PlaceholdersAndVanishInput({
         </div>
       </form>
 
-      <div className="min-h-28 mt-5 w-full ">
-        <div className="border-2 w-[90%] mx-auto p-4 rounded-md">
-          <div className="flex justify-between">
-            <h1 className="text-2xl font-extrabold text-[#8678F9] mt-3">
-              Introduction to Machine Learning
-            </h1>
-            <Link
-              className="mt-5 z-10 px-2 py-1 flex items-center justify-between bg-white text-black rounded-md cursor-pointer"
-              href={"/course/1/12"}
-              target="_blank"
-            >
-              Check it out <ArrowUpRight size={16} className="ml-2" />
-            </Link>
-          </div>
-
-          <p className="text-gray-400 text-sm mt-1">
-            Machine learning uses algorithms to analyze data, learn from it, and
-            make predictions or decisions without explicit programming.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mx-auto p-4">
-            {Object.keys(courseData).map((day) => (
-              <CourseCard key={day} day={day} modules={courseData[day]} />
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
