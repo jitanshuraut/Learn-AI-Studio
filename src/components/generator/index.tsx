@@ -7,10 +7,7 @@ import Image from "next/image";
 
 interface CourseCardProps {
   day: string;
-  modules:
-    | string[]
-    | { title: string; version: string; author: string; source: string }[]
-    | any;
+  modules: string[];
 }
 
 function toTitleCase(str: string) {
@@ -26,7 +23,7 @@ const CourseCard = ({ day, modules }: CourseCardProps) => {
     <div className="border rounded-lg shadow-lg p-4 m-4">
       <h2 className="text-md font-bold mb-4 text-[#8678F9]">{day}</h2>
       <ul className="list-disc pl-5">
-        {modules.map((module, index) => (
+        {modules.map((module: string, index: number) => (
           <li key={index} className="mb-1 text-sm">
             {module}
           </li>
