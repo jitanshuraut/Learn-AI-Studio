@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.1.0",
+    "@google/generative-ai": "^0.14.1",
     "@hookform/resolvers": "^3.3.4",
     "@neondatabase/serverless": "^0.9.1",
     "@prisma/client": "^5.13.0",
