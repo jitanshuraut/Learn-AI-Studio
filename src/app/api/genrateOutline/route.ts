@@ -31,34 +31,34 @@ function extractAndParseJSON(input: string): CourseStatus | null {
 
 export async function POST(req: NextRequest) {
     const data = await req.json()
-    console.log(data)
-    const prompt = CHECKER(data.course)
-    const result = await model.generateContent(prompt);
+    // console.log(data)
+    // const prompt = CHECKER(data.course)
+    // const result = await model.generateContent(prompt);
+    // const response = await result.response;
+    // const text: CourseStatus | null = extractAndParseJSON(response.text());
+
+    // try {
+
+    //     if (text?.safe) {
+    // console.log("success hit")
+    const genrate_promt = GENRATE_OUTLINE(data.course)
+    // console.log(genrate_promt)
+    const result = await model.generateContent(genrate_promt);
+    // console.log(result)
     const response = await result.response;
-    const text: CourseStatus | null = extractAndParseJSON(response.text());
+    // console.log(response)
+    const module_text = extractAndParseJSON(response.text());
+    // console.log(module_text);
+    return NextResponse.json(module_text)
 
-    try {
-
-        if (text?.safe) {
-            console.log("success hit")
-            const genrate_promt = GENRATE_OUTLINE(data.course)
-            console.log(genrate_promt)
-            const result = await model.generateContent(genrate_promt);
-            console.log(result)
-            const response = await result.response;
-            console.log(response)
-            const module_text = extractAndParseJSON(response.text());
-            console.log(module_text);
-            return NextResponse.json(module_text)
-
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
+    //     }
+    // }
+    // catch (err) {
+    //     console.log(err);
+    // }
 
 
-    return NextResponse.json(text)
+    // return NextResponse.json(text)
 }
 
 
