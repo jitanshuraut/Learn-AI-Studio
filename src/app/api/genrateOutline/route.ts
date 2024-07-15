@@ -5,6 +5,11 @@ import { db } from "@/lib/db"
 import extractAndParseJSON from "@/lib/jsonParser"
 
 
+interface CourseStatus {
+    message: string;
+    coursename: string;
+    safe: boolean;
+}
 
 
 export async function POST(req: NextRequest) {
@@ -13,7 +18,7 @@ export async function POST(req: NextRequest) {
 
 
     try {
-        const user = await db.user.findUnique({
+        let user = await db.user.findUnique({
             where: { id: data.userId },
         });
 
@@ -25,24 +30,18 @@ export async function POST(req: NextRequest) {
         const lastUpdate = new Date(user.LastCreditUpdate);
         const timeDiff = Math.abs(currentTime.getTime() - lastUpdate.getTime());
         const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-        // If last credit update was more than 7 days ago, add 5 credits and update the timestamp
         if (dayDiff > 7) {
-            user.Credit += 5;
-            await db.user.update({
+            const updatedUser = await db.user.update({
                 where: { id: user.id },
-                data: { Credit: user.Credit, LastCreditUpdate: currentTime },
+                data: {
+                    Credit: {
+                        increment: 5,
+                    },
+                    LastCreditUpdate: currentTime,
+                },
             });
+            user = updatedUser; 
         }
-
-        if (user.Credit <= 0) {
-            return NextResponse.json({ message: "Insufficient credits" });
-        }
-
-        await db.user.update({
-            where: { id: user.id },
-            data: { Credit: user.Credit - 1, LastCreditUpdate: new Date() },
-        });
 
         const prompt = CHECKER(data.course);
         const result = await model.generateContent(prompt);

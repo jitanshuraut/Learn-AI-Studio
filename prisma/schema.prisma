@@ -19,7 +19,7 @@ model User {
   createdAt        DateTime   @default(now())
   courses          Course[]
   progress         Progress[]
-  Credit           Int?       @default(5)
+  Credit           Int       @default(5)
   LastCreditUpdate DateTime   @default(now())
 }
 
