@@ -26,10 +26,12 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: "User not found" });
         }
 
+
         const currentTime = new Date();
         const lastUpdate = new Date(user.LastCreditUpdate);
         const timeDiff = Math.abs(currentTime.getTime() - lastUpdate.getTime());
         const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
         if (dayDiff > 7) {
             const updatedUser = await db.user.update({
                 where: { id: user.id },
@@ -40,8 +42,23 @@ export async function POST(req: NextRequest) {
                     LastCreditUpdate: currentTime,
                 },
             });
-            user = updatedUser; 
+            user = updatedUser;
         }
+
+        if (user.Credit === null || user.Credit <= 0) {
+            return NextResponse.json({ message: "Insufficient credit" });
+        }
+
+        const finalUser = await db.user.update({
+            where: { id: user.id },
+            data: {
+                Credit: {
+                    decrement: 1,
+                },
+            },
+        });
+
+
 
         const prompt = CHECKER(data.course);
         const result = await model.generateContent(prompt);

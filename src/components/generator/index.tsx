@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCredit } from "../credit-provider";
 
 interface CourseCardProps {
   day: string;
@@ -68,13 +69,12 @@ const placeholders = [
 export function Placeholders() {
   const [Query, setQuery] = useState<string>("deep learning");
   const [generating, setGenerating] = useState<boolean>(false);
-  const [prev, setprev] = useState<number>(0);
+  const [isDisable, setisDisable] = useState<boolean>(false);
   const [course, setcourse] = useState<any>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const session: any = useCurrentUser();
-  console.log("Session");
-  console.log(session);
+  const { Credit, setCredit } = useCredit();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
@@ -87,6 +87,14 @@ export function Placeholders() {
     e.preventDefault();
     console.log("submitted");
     setGenerating(true);
+
+    if (Credit <= 0) {
+      setisDisable(true);
+      setErrorMessage("Insufficient credits");
+    }
+
+    setCredit(Credit - 1);
+
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/genrateOutline`, {
@@ -226,6 +234,7 @@ export function Placeholders() {
         placeholders={placeholders}
         onChange={handleChange}
         onSubmit={onSubmit}
+        isDisabled={isDisable}
       />
 
       <div className="min-h-28 mt-5 w-full ">{renderContent()}</div>

@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import Link from "next/link";
 import {
   Bell,
@@ -14,16 +13,10 @@ import {
   Users,
   DollarSign,
 } from "lucide-react";
-
+import React, { useContext } from "react";
 import { Badge } from "./badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/LandingPage/card";
+import { Card, CardContent } from "@/components/ui/LandingPage/card";
 import { Input } from "@/components/ui/LandingPage/input";
 import {
   Sheet,
@@ -32,10 +25,12 @@ import {
 } from "@/components/ui/DashBoard/sheet";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import Image from "next/image";
+import { useCredit } from "@/components/credit-provider";
 
 function Top_Bar() {
   const session = useCurrentUser();
-  console.log("Session");
+  const { Credit, setCredit } = useCredit();
+
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet>
@@ -111,7 +106,8 @@ function Top_Bar() {
       </div>
 
       <div className="mx-2 px-2 py-1 border-2 flex justify-between">
-        <p>Credit :10</p> <DollarSign className="text-[#8678F9] text-sm" />
+        <p>Credit :{Credit}</p>{" "}
+        <DollarSign className="text-[#8678F9] text-sm" />
       </div>
 
       <Button variant="secondary" size="icon" className="rounded-full">

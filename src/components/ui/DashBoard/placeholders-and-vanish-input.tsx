@@ -4,14 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
-
-
-
 export function PlaceholdersAndVanishInput({
+  isDisabled,
   placeholders,
   onChange,
   onSubmit,
 }: {
+  isDisabled: boolean;
   placeholders: string[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -174,6 +173,7 @@ export function PlaceholdersAndVanishInput({
             }
           }}
           onKeyDown={handleKeyDown}
+          disabled={isDisabled}
           ref={inputRef}
           value={value}
           type="text"
@@ -249,7 +249,6 @@ export function PlaceholdersAndVanishInput({
           </AnimatePresence>
         </div>
       </form>
-
     </div>
   );
 }
