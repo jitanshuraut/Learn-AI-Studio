@@ -9,16 +9,18 @@ datasource db {
 }
 
 model User {
-  id            String     @id @default(cuid())
-  name          String?
-  email         String?    @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  accounts      Account[]
-  createdAt     DateTime   @default(now())
-  courses       Course[]
-  progress      Progress[]
+  id               String     @id @default(cuid())
+  name             String?
+  email            String?    @unique
+  emailVerified    DateTime?
+  image            String?
+  password         String?
+  accounts         Account[]
+  createdAt        DateTime   @default(now())
+  courses          Course[]
+  progress         Progress[]
+  Credit           Int?       @default(5)
+  LastCreditUpdate DateTime   @default(now())
 }
 
 model Account {

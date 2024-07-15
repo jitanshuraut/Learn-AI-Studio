@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface CourseCardProps {
   day: string;
@@ -67,18 +68,25 @@ const placeholders = [
 export function Placeholders() {
   const [Query, setQuery] = useState<string>("deep learning");
   const [generating, setGenerating] = useState<boolean>(false);
-  const [submitted, setsubmitted] = useState<boolean>(false);
+  const [prev, setprev] = useState<number>(0);
   const [course, setcourse] = useState<any>({});
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const session: any = useCurrentUser();
+  console.log("Session");
+  console.log(session);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
+    if (Query.length > e.target.value.length) {
+      setcourse({});
+    }
     setQuery(e.target.value);
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("submitted");
     setGenerating(true);
-    setsubmitted(true);
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/genrateOutline`, {
@@ -88,6 +96,7 @@ export function Placeholders() {
           },
           body: JSON.stringify({
             course: Query,
+            userId: session.id,
           }),
         });
 
@@ -97,11 +106,21 @@ export function Placeholders() {
 
         const data = await response.json();
         console.log(data);
-        setcourse(data);
+        if (data.message === "Error") {
+          setErrorMessage("Error");
+          setcourse({});
+        } else if (data.message === "Insufficient credits") {
+          setErrorMessage("Insufficient credits");
+          setcourse({});
+        } else {
+          setErrorMessage(null); // Clear any previous error messages
+          setcourse(data);
+        }
         setGenerating(false);
-        setsubmitted(false);
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching data:", error);
+        setErrorMessage("Failed to fetch courses. Please try again.");
+        setcourse({});
       }
     };
 
@@ -124,6 +143,38 @@ export function Placeholders() {
             src="/loader.gif"
           />
           <h1>Generating</h1>
+        </div>
+      );
+    }
+
+    if (errorMessage == "Error") {
+      return (
+        <div className="flex flex-col items-center justify-center">
+          <Image
+            className="mx-auto"
+            width="100"
+            height="100"
+            alt="Loading..."
+            src="/Danger.png"
+          />
+          <p className="text-red-500">
+            Error due to generation of harmful or biomedical content.
+          </p>
+        </div>
+      );
+    }
+
+    if (errorMessage == "Insufficient credits") {
+      return (
+        <div className="flex flex-col items-center justify-center">
+          <Image
+            className="rounded-full mx-auto"
+            width="200"
+            height="200"
+            alt="Loading..."
+            src="/break.png"
+          />
+          <p className="text-red-500"> Insufficient credits </p>
         </div>
       );
     }
@@ -162,7 +213,7 @@ export function Placeholders() {
       );
     }
 
-    return null; // Or some placeholder content if needed
+    return null;
   };
 
   return (

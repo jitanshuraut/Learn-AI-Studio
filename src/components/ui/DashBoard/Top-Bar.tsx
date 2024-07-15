@@ -12,6 +12,7 @@ import {
   Search,
   ShoppingCart,
   Users,
+  DollarSign,
 } from "lucide-react";
 
 import { Badge } from "./badge";
@@ -107,6 +108,10 @@ function Top_Bar() {
             />
           </div>
         </form>
+      </div>
+
+      <div className="mx-2 px-2 py-1 border-2 flex justify-between">
+        <p>Credit :10</p> <DollarSign className="text-[#8678F9] text-sm" />
       </div>
 
       <Button variant="secondary" size="icon" className="rounded-full">

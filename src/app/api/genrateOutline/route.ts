@@ -1,62 +1,67 @@
 import { NextResponse, NextRequest } from "next/server";
 import { CHECKER, GENRATE_OUTLINE } from "../../../../promt";
 import { model } from "../../../../genAI";
+import { db } from "@/lib/db"
+import extractAndParseJSON from "@/lib/jsonParser"
 
 
-
-interface CourseStatus {
-    message: string;
-    coursename: string;
-    safe: boolean;
-}
-
-function extractAndParseJSON(input: string): CourseStatus | null {
-    const jsonRegex = /```json([\s\S]*?)```/;
-    const match = input.match(jsonRegex);
-
-    if (match && match[1]) {
-        try {
-            const jsonString = match[1].trim();
-            const parsedObject: CourseStatus = JSON.parse(jsonString);
-            return parsedObject;
-        } catch (error) {
-            console.error("Error parsing JSON:", error);
-            return null;
-        }
-    }
-
-    return null;
-}
 
 
 export async function POST(req: NextRequest) {
     const data = await req.json()
-    // console.log(data)
-    // const prompt = CHECKER(data.course)
-    // const result = await model.generateContent(prompt);
-    // const response = await result.response;
-    // const text: CourseStatus | null = extractAndParseJSON(response.text());
+    console.log(data)
 
-    // try {
 
-    //     if (text?.safe) {
-    // console.log("success hit")
-    const genrate_promt = GENRATE_OUTLINE(data.course)
-    // console.log(genrate_promt)
-    const result = await model.generateContent(genrate_promt);
-    // console.log(result)
-    const response = await result.response;
-    // console.log(response)
-    const module_text = extractAndParseJSON(response.text());
-    // console.log(module_text);
-    return NextResponse.json(module_text)
+    try {
+        const user = await db.user.findUnique({
+            where: { id: data.userId },
+        });
 
-    //     }
-    // }
-    // catch (err) {
-    //     console.log(err);
-    // }
+        if (!user) {
+            return NextResponse.json({ message: "User not found" });
+        }
 
+        const currentTime = new Date();
+        const lastUpdate = new Date(user.LastCreditUpdate);
+        const timeDiff = Math.abs(currentTime.getTime() - lastUpdate.getTime());
+        const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        // If last credit update was more than 7 days ago, add 5 credits and update the timestamp
+        if (dayDiff > 7) {
+            user.Credit += 5;
+            await db.user.update({
+                where: { id: user.id },
+                data: { Credit: user.Credit, LastCreditUpdate: currentTime },
+            });
+        }
+
+        if (user.Credit <= 0) {
+            return NextResponse.json({ message: "Insufficient credits" });
+        }
+
+        await db.user.update({
+            where: { id: user.id },
+            data: { Credit: user.Credit - 1, LastCreditUpdate: new Date() },
+        });
+
+        const prompt = CHECKER(data.course);
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text: CourseStatus | null = extractAndParseJSON(response.text());
+
+        if (text?.safe) {
+            const genrate_promt = GENRATE_OUTLINE(data.course);
+            const result = await model.generateContent(genrate_promt);
+            const response = await result.response;
+            const module_text = extractAndParseJSON(response.text());
+            return NextResponse.json(module_text);
+        } else {
+            return NextResponse.json({ message: "Error" });
+        }
+    } catch (err) {
+        console.log(err);
+        return NextResponse.json({ message: "Error" });
+    }
 
     // return NextResponse.json(text)
 }
