@@ -10,10 +10,7 @@ import {
   Text,
 } from "@react-email/components";
 import * as React from "react";
-
-interface LinkEmailProps {
-  token?: string;
-}
+import { LinkEmailProps } from "@/types";
 
 export const LinkEmail = ({ token }: LinkEmailProps) => (
   <Html>

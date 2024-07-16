@@ -1,9 +1,6 @@
 import Image from "next/image"; // Adjust this import based on your actual Image component
 import PlusSvg from "../../../../public/assets/svg/PlusSvg";
-
-interface SectionProps {
-  children?: any;
-}
+import { SectionProps } from "@/types";
 
 const Section: React.FC<SectionProps> = ({ children }) => {
   return (

@@ -4,14 +4,7 @@ import { Header } from "@/components/auth/header";
 import { Social } from "@/components/auth/social";
 import { BackButton } from "@/components/auth/back-button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/LandingPage/card";
-
-interface CardWrapperProps {
-  children: React.ReactNode;
-  headerTitle: string;
-  backButtonLabel: string;
-  backButtonHref: string;
-  showSocial?: boolean;
-}
+import {CardWrapperProps} from "@/types"
 
 export const CardWrapper = ({
   children,

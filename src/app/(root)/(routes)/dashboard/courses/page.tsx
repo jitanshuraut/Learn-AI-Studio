@@ -3,6 +3,8 @@ import React, { useState, useEffect, Suspense } from "react";
 import Coursescard from "@/components/ui/DashBoard/courses-card";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
+const IMG_arr = ["/c4.png", "/c3.png", "/c2.jpg", "/c1.jpg"];
+
 function useUserCourses(userId: string) {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -34,14 +36,19 @@ function useUserCourses(userId: string) {
 }
 
 const CoursesList = ({ userId }: { userId: string }) => {
-  const courses = useUserCourses("clxy2azgj0000xa7nrsxxg3bd");
-  console.log(courses);
+  const courses = useUserCourses(userId);
+  // console.log(courses);
+  // console.log(Math.ceil(Math.random() * 100) % 3);
 
   return (
     <>
       {courses &&
         courses.map((course: any) => (
-          <Coursescard key={course.id}  />
+          <Coursescard
+            key={course.id}
+            course={course}
+            img={IMG_arr[Math.ceil(Math.random() * 100) % 3]}
+          />
         ))}
     </>
   );

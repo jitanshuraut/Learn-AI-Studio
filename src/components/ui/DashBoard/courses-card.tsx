@@ -2,22 +2,20 @@ import React from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
-function Coursescard() {
+function Coursescard({ course, img }: any) {
   return (
-    <div className="flex flex-col justify-center bg-primary-foreground p-4 rounded-md shadow-md border border-gray-800">
-      <Image
-        src="/courses.png"
+    <div className="flex flex-col justify-between  bg-primary-foreground p-4 rounded-md shadow-md border border-gray-800">
+      {/* <Image
+        src={img}
         width={350}
         height={50}
         alt="courses image"
         className="object-contain rounded-lg"
-      />
-      <h1 className="font-bold mt-5 text-2xl">
-        Introduction to Machine learning
-      </h1>
+      /> */}
+      <h1 className="font-bold mt-5 text-2xl">{course.courseName}</h1>
       <p className="text-gray-400 text-sm mt-1">
-        Machine learning uses algorithms to analyze data, learn from it, and
-        make predictions or decisions without explicit programming.
+        {course.Introduction &&
+          course.Introduction.split(" ").slice(0, 100).join(" ") + ".."}
       </p>
       <div className="flex justify-between items-center mt-5">
         <div className="w-[50%] bg-gray-200 rounded-lg overflow-hidden">

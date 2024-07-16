@@ -2,13 +2,12 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import localFont from "next/font/local";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "../../auth";
+import { RootLayoutProps } from "@/types";
 
 const inter = Inter({ subsets: ["latin"] });
-
-
 
 export const metadata = {
   title: "LearnAI Studio",
@@ -34,10 +33,6 @@ const fontSubAlt = localFont({
   variable: "--font-subalt",
 });
 
-interface RootLayoutProps {
-  children: React.ReactNode;
-}
-
 export default async function RootLayout({ children }: RootLayoutProps) {
   const session = await auth();
 
@@ -52,7 +47,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <div className="absolute bottom-0 right-[-10%] top-[-5%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div>
             <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
               <div className="w-full mx-auto py-[-50px] px-0 font-subalt ">
-            
                 <main>{children}</main>
               </div>
               <Toaster />

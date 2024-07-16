@@ -36,7 +36,7 @@ export default function Page() {
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     startTransition(() => {
       register(values).then((data) => {
-        console.log("Printing registration data ", data);
+        // console.log("Printing registration data ", data);
         if (data?.error) {
           toast.error(data.error);
         }

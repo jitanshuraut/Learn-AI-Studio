@@ -10,10 +10,7 @@ import {
   Text,
 } from "@react-email/components";
 import * as React from "react";
-
-interface ResetPasswordProps {
-  token?: string;
-}
+import { ResetPasswordProps } from "@/types";
 
 const gradientStyle = {
   background: "linear-gradient(to right, #6366F1, #A855F7)", // from-indigo-500 to-purple-500

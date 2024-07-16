@@ -2,19 +2,37 @@ import { NextResponse, NextRequest } from "next/server";
 import { CHECKER, GENRATE_OUTLINE } from "../../../../promt";
 import { model } from "../../../../genAI";
 import { db } from "@/lib/db"
-import extractAndParseJSON from "@/lib/jsonParser"
+import { extractAndParseJSON, ModuleCreator } from "@/lib/jsonParser"
+import { ModuleData, CourseStatus } from "@/types"
 
 
-interface CourseStatus {
-    message: string;
-    coursename: string;
-    safe: boolean;
+async function storeModuleData(modules: ModuleData[] | null, courseId: string) {
+
+
+    if (modules && modules.length > 0) {
+        try {
+            const createdModules = await db.module.createMany({
+                data: modules.map(module => ({
+                    courseId: courseId, // Assuming courseId is defined earlier in your code
+                    dayNumber: module.dayNumber,
+                    moduleNumber: module.moduleNumber,
+                    title: module.title,
+                })),
+            });
+
+            console.log("Modules stored successfully:", createdModules);
+        } catch (error) {
+            console.error("Error storing module data:", error);
+        }
+    } else {
+        console.log("No valid module data found in input.");
+    }
 }
 
 
 export async function POST(req: NextRequest) {
     const data = await req.json()
-    console.log(data)
+    // console.log(data)
 
 
     try {
@@ -65,11 +83,27 @@ export async function POST(req: NextRequest) {
         const response = await result.response;
         const text: CourseStatus | null = extractAndParseJSON(response.text());
 
+
         if (text?.safe) {
             const genrate_promt = GENRATE_OUTLINE(data.course);
             const result = await model.generateContent(genrate_promt);
             const response = await result.response;
             const module_text = extractAndParseJSON(response.text());
+            const ModuleText = ModuleCreator(response.text())
+            console.log("Module-----------")
+            console.log(ModuleText);
+
+            const course = await db.course.create({
+                data: {
+                    userId: data.userId,
+                    courseName: module_text?.name || "unknown",
+                    numberOfDays: (typeof module_text?.numberofdays === 'string' ? parseInt(module_text.numberofdays, 10) : module_text?.numberofdays) || 5,
+                    Introduction: module_text?.Introduction[0] || "unknown",
+                    structure: JSON.stringify(module_text)
+                },
+            })
+
+            storeModuleData(ModuleText, course.id)
             return NextResponse.json(module_text);
         } else {
             return NextResponse.json({ message: "Error" });
@@ -79,7 +113,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: "Error" });
     }
 
-    // return NextResponse.json(text)
 }
 
 

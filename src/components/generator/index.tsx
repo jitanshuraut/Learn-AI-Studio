@@ -6,11 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useCredit } from "../credit-provider";
-
-interface CourseCardProps {
-  day: string;
-  modules: string[];
-}
+import { CourseCardProps } from "@/types";
 
 function toTitleCase(str: string) {
   return str
@@ -77,7 +73,7 @@ export function Placeholders() {
   const { Credit, setCredit } = useCredit();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     if (Query.length > e.target.value.length) {
       setcourse({});
     }
@@ -85,7 +81,7 @@ export function Placeholders() {
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submitted");
+    // console.log("submitted");
     setGenerating(true);
 
     if (Credit <= 0) {
@@ -113,7 +109,7 @@ export function Placeholders() {
         }
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         if (data.message === "Error") {
           setErrorMessage("Error");
           setcourse({});
@@ -121,12 +117,14 @@ export function Placeholders() {
           setErrorMessage("Insufficient credits");
           setcourse({});
         } else {
-          setErrorMessage(null); // Clear any previous error messages
+          setErrorMessage(null);
+          // console.log("data-----------");
+          // console.log(data); // Clear any previous error messages
           setcourse(data);
         }
         setGenerating(false);
       } catch (error) {
-        console.log("Error fetching data:", error);
+        // console.log("Error fetching data:", error);
         setErrorMessage("Failed to fetch courses. Please try again.");
         setcourse({});
       }
@@ -190,9 +188,9 @@ export function Placeholders() {
     if (Object.keys(course).length > 0) {
       return (
         <div className="border-2 w-[90%] mx-auto p-4 rounded-md">
-          <div className="flex justify-between">
+          <div className="flex justify-between my-2">
             <h1 className="text-2xl font-extrabold text-[#8678F9] mt-3">
-              {toTitleCase(Query)}
+              {toTitleCase(course.name)}
             </h1>
             <Link
               className="mt-5 z-10 px-2 py-1 flex items-center justify-between bg-white text-black rounded-md cursor-pointer"
@@ -205,10 +203,28 @@ export function Placeholders() {
 
           <p className="text-gray-400 text-sm mt-1">
             {course.Introduction
-              ? course.Introduction[0]
+              ? course.Introduction.join(' ')
               : "No Introduction Available"}
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mx-auto p-4">
+          <div className="mt-3 mb-7">
+            <p className="text-xl font-bold text-[#8678F9]">ReferenceBooks</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-2">
+              {course.ReferenceBooks.map((book: any, index: number) => (
+                <div
+                  key={index}
+                  className="border-2 p-2 flex justify-around items-center cursor-pointer"
+                  onClick={() => {
+                    window.open(book.source, "_blank");
+                  }}
+                >
+                  <h3>{book.title}</h3>
+                  <ArrowUpRight size={16} className="ml-2" />
+                </div>
+              ))}
+            </div>
+          </div>
+          <h2 className="text-xl font-bold text-[#8678F9]">Structure</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mx-auto p-1">
             {Object.keys(course).map((day) =>
               day.includes("Day") &&
               Array.isArray(course[day]) &&

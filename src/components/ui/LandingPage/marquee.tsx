@@ -1,14 +1,5 @@
 import { cn } from "@/lib/utils";
-
-interface MarqueeProps {
-  className?: string;
-  reverse?: boolean;
-  pauseOnHover?: boolean;
-  children?: React.ReactNode;
-  vertical?: boolean;
-  repeat?: number;
-  [key: string]: any;
-}
+import { MarqueeProps } from "@/types";
 
 export default function Marquee({
   className,
@@ -28,7 +19,7 @@ export default function Marquee({
           "flex-row": !vertical,
           "flex-col": vertical,
         },
-        className,
+        className
       )}
     >
       {Array(repeat)

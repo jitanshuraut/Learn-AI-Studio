@@ -22,7 +22,7 @@ export default function HeroSection() {
     if (session) {
       router.push("/dashboard");
     } else {
-      router.push("/register");
+      router.push("/login");
     }
   };
 

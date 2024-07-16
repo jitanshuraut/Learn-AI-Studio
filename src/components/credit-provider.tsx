@@ -7,11 +7,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-
-interface CreditContextProps {
-  Credit: number;
-  setCredit: React.Dispatch<React.SetStateAction<number>>;
-}
+import {CreditContextProps} from "@/types"
 
 const CreditContext = createContext<CreditContextProps | undefined>(undefined);
 
@@ -37,7 +33,7 @@ export function CreditProvider({ children }: CreditProps) {
         });
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         setCredit(data.Credit);
       } catch (err) {
         console.error(err);

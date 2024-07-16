@@ -142,7 +142,7 @@ export function PlaceholdersAndVanishInput({
   };
 
   const vanishAndSubmit = () => {
-    console.log("VanishAndSubmit");
+  
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -20,8 +20,10 @@ Set safe to true if the course is acceptable; set to false if there is a violati
 }
 
 export const GENRATE_OUTLINE = (input: string) => {
-    return `Develop a comprehensive course on the topic "${input}". The duration of the course will be determined based on optimal and enough learning conditions, ranging from 3 to 18 days. Each day should be divided into 3 modules. Design the course with the following components in a JSON structure:
+    return `Develop a comprehensive course on the topic "${input}". The duration of the course will be determined based on optimal and enough learning conditions, ranging from 3 to 18 days. Each day should be divided into 3 modules. Design the course with the following components in a JSON structure and name should be short and in ReferenceBooks source should be url of book to buy from amazon or other website :
 {
+"name:" : "Course Name",
+"numberofdays": "Number of days"   
 "Introduction": ["Introduce the course and its objectives."],
 "Day 1": ["Day 1 - Module 1: Topic", "Day 1 - Module 2: Topic", "Day 1 - Module 3: Topic"],
 ...
