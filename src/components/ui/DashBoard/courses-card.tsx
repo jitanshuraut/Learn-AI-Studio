@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 
 function Coursescard({ course, img }: any) {
   return (
-    <div className="flex flex-col justify-between  bg-primary-foreground p-4 rounded-md shadow-md border border-gray-800">
+    <div className="flex flex-col max-h-72 justify-between  bg-primary-foreground p-4 rounded-md shadow-md border border-gray-800">
       {/* <Image
         src={img}
         width={350}
