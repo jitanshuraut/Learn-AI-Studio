@@ -24,7 +24,7 @@ export function ModuleCreator(input: string): ModuleData[] | null {
     if (match && match[1]) {
         try {
             const jsonString = match[1].trim();
-            const parsedObject: CourseStatus = JSON.parse(jsonString);
+            const parsedObject: any = JSON.parse(jsonString);
             const modules: ModuleData[] = [];
 
             for (const key in parsedObject) {
