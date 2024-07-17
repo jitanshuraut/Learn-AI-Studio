@@ -62,6 +62,10 @@ const placeholders = [
   "Courses on Robotics",
 ];
 
+const encodeBase64 = (str: string) => {
+  return Buffer.from(str).toString("base64");
+};
+
 export function Placeholders() {
   const [Query, setQuery] = useState<string>("deep learning");
   const [generating, setGenerating] = useState<boolean>(false);
@@ -76,6 +80,7 @@ export function Placeholders() {
     // console.log(e.target.value);
     if (Query.length > e.target.value.length) {
       setcourse({});
+      setErrorMessage(null);
     }
     setQuery(e.target.value);
   };
@@ -84,7 +89,7 @@ export function Placeholders() {
     // console.log("submitted");
     setGenerating(true);
 
-    if (Credit <= 0) {
+    if (Credit < 0) {
       setisDisable(true);
       setErrorMessage("Insufficient credits");
     }
@@ -110,11 +115,8 @@ export function Placeholders() {
 
         const data = await response.json();
         // console.log(data);
-        if (data.message === "Error") {
-          setErrorMessage("Error");
-          setcourse({});
-        } else if (data.message === "Insufficient credits") {
-          setErrorMessage("Insufficient credits");
+        if (data.message) {
+          setErrorMessage(data.message);
           setcourse({});
         } else {
           setErrorMessage(null);
@@ -153,7 +155,7 @@ export function Placeholders() {
       );
     }
 
-    if (errorMessage == "Error") {
+    if (errorMessage) {
       return (
         <div className="flex flex-col items-center justify-center">
           <Image
@@ -163,9 +165,7 @@ export function Placeholders() {
             alt="Loading..."
             src="/Danger.png"
           />
-          <p className="text-red-500">
-            Error due to generation of harmful or biomedical content.
-          </p>
+          <p className="text-red-500">{errorMessage}</p>
         </div>
       );
     }
@@ -194,8 +194,15 @@ export function Placeholders() {
             </h1>
             <Link
               className="mt-5 z-10 px-2 py-1 flex items-center justify-between bg-white text-black rounded-md cursor-pointer"
-              href={"/course/1/12"}
+              href={`/course/${encodeBase64(session.id)}/${encodeBase64(course.id)}`}
               target="_blank"
+              onClick={() => {
+                const data = {
+                  course: course.id,
+                  coursestructure: course.structure,
+                };
+                localStorage.setItem(course.id, JSON.stringify(data));
+              }}
             >
               Check it out <ArrowUpRight size={16} className="ml-2" />
             </Link>
@@ -203,7 +210,7 @@ export function Placeholders() {
 
           <p className="text-gray-400 text-sm mt-1">
             {course.Introduction
-              ? course.Introduction.join(' ')
+              ? course.Introduction.join(" ")
               : "No Introduction Available"}
           </p>
           <div className="mt-3 mb-7">

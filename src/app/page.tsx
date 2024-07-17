@@ -10,7 +10,6 @@ import Section from "@/components/ui/LandingPage/Section";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
 import FloatingNav from "@/components/ui/LandingPage/floating-navbar";
 
-
 const navItems = [
   {
     name: "Home",
@@ -24,11 +23,10 @@ const navItems = [
   },
 ];
 export default function Home() {
+  localStorage.clear();
 
   return (
     <div>
-   
-
       <header>
         <FloatingNav navItems={navItems} />
       </header>

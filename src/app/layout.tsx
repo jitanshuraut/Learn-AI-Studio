@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "../../auth";
 import { RootLayoutProps } from "@/types";
+import { CourseProvider } from "@/components/course-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,7 +48,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <div className="absolute bottom-0 right-[-10%] top-[-5%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,0,182,.15),rgba(255,255,255,0))]"></div>
             <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
               <div className="w-full mx-auto py-[-50px] px-0 font-subalt ">
-                <main>{children}</main>
+                <main>
+                  <CourseProvider>{children}</CourseProvider>
+                </main>
               </div>
               <Toaster />
             </ThemeProvider>

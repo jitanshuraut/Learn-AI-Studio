@@ -106,7 +106,12 @@ export async function POST(req: NextRequest) {
             storeModuleData(ModuleText, course.id)
             return NextResponse.json(module_text);
         } else {
-            return NextResponse.json({ message: "Error" });
+            try {
+                return NextResponse.json({ message: text?.message });
+            }
+            catch {
+                return NextResponse.json({ message: "Error" });
+            }
         }
     } catch (err) {
         console.log(err);

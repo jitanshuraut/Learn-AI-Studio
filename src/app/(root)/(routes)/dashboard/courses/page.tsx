@@ -44,11 +44,7 @@ const CoursesList = ({ userId }: { userId: string }) => {
     <>
       {courses &&
         courses.map((course: any) => (
-          <Coursescard
-            key={course.id}
-            course={course}
-            img={IMG_arr[Math.ceil(Math.random() * 100) % 3]}
-          />
+          <Coursescard key={course.id} course={course} UserId={userId} />
         ))}
     </>
   );
@@ -64,7 +60,7 @@ function Page() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-[90vh] overflow-scroll hide-scrollbar">
+    <div className="grid z-50 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-[90vh] overflow-scroll hide-scrollbar">
       <Suspense fallback={<div>Loading courses...</div>}>
         <CoursesList userId={userId} />
       </Suspense>
