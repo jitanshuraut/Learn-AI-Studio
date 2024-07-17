@@ -6,7 +6,7 @@ import { Button } from "../../ui/button";
 
 function AboutSection() {
   return (
-    <div className="w-[95%] mx-auto">
+    <div id="about" className="w-[95%] mx-auto">
       <div className="flex justify-between">
         <div className="md:w-[30%] w-auto flex h-96 overflow-hidden rounded-lg border">
           <Image

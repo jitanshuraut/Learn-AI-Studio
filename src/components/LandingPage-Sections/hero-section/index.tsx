@@ -27,7 +27,7 @@ export default function HeroSection() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl mt-12 px-6 lg:px-8 bg-transparent relative">
+    <div id="home" className="mx-auto max-w-6xl mt-12 px-6 lg:px-8 bg-transparent relative">
       <div className="max-w-4xl absolute">
         <Spotlight fill="#9284D4" />
       </div>
@@ -72,7 +72,7 @@ export default function HeroSection() {
             variants={FADE_DOWN_ANIMATION_VARIANTS}
             className="mt-10 flex items-center justify-center gap-x-6 "
           >
-            <div className="z-50 w-[60%] mx-auto">
+            <div className="z-10 w-[60%] mx-auto">
               <Button
                 className="w-[50%]"
                 onClick={() => {
