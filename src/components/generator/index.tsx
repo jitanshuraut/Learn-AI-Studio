@@ -63,6 +63,10 @@ const placeholders = [
 ];
 
 const encodeBase64 = (str: string) => {
+  if (typeof str !== "string") {
+    // throw new TypeError('The input must be a string.');
+    console.log("The input must be a string");
+  }
   return Buffer.from(str).toString("base64");
 };
 
@@ -114,8 +118,8 @@ export function Placeholders() {
         }
 
         const data = await response.json();
-        // console.log(data);
-        if (data.message) {
+        console.log(data);
+        if (data.message != null) {
           setErrorMessage(data.message);
           setcourse({});
         } else {
@@ -194,7 +198,7 @@ export function Placeholders() {
             </h1>
             <Link
               className="mt-5 z-10 px-2 py-1 flex items-center justify-between bg-white text-black rounded-md cursor-pointer"
-              href={`/course/${encodeBase64(session.id)}/${encodeBase64(course.id)}`}
+              href={`/course/${encodeBase64(String(session.id))}/${encodeBase64(String(course.id))}`}
               target="_blank"
               onClick={() => {
                 const data = {

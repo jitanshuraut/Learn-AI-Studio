@@ -55,7 +55,7 @@ export default function HeroSection() {
 
           <motion.h1
             variants={FADE_DOWN_ANIMATION_VARIANTS}
-            className="text-4xl font-bold font-headingAlt bg-gradient-to-tr from-purple-300/80 to-white/90 bg-clip-text text-transparent tracking-normal sm:text-7xl  md:text-9xl"
+            className="text-4xl font-bold font-headingAlt bg-gradient-to-tr from-purple-300/100 to-white/50 bg-clip-text text-transparent tracking-normal sm:text-7xl  md:text-9xl"
           >
             <Feeder feed="Features" />
             <div className="mb-4"></div>
