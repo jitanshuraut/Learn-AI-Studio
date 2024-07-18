@@ -249,7 +249,9 @@ const extractDays = (
 interface ModuleData {
   day: number;
   module: number;
-  content: string;
+  content: {
+    data: string;
+  };
 }
 
 const Home: React.FC = () => {
