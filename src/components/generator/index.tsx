@@ -198,15 +198,9 @@ export function Placeholders() {
             </h1>
             <Link
               className="mt-5 z-10 px-2 py-1 flex items-center justify-between bg-white text-black rounded-md cursor-pointer"
-              href={`/course/${encodeBase64(String(session.id))}/${encodeBase64(String(course.id))}`}
+              href={`/dashboard/courses`}
               target="_blank"
-              onClick={() => {
-                const data = {
-                  course: course.id,
-                  coursestructure: course.structure,
-                };
-                localStorage.setItem(course.id, JSON.stringify(data));
-              }}
+             
             >
               Check it out <ArrowUpRight size={16} className="ml-2" />
             </Link>

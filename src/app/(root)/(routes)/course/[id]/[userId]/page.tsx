@@ -197,8 +197,7 @@ const fetchData = async ({
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { MoveRight } from "lucide-react";
 
 type CourseData = {
   name: string;
@@ -266,6 +265,7 @@ const Home: React.FC = () => {
     const { course, coursestructure } = parsedJson;
 
     const coursestructure_new = JSON.parse(coursestructure);
+    console.log(coursestructure_new)
     const daysWithModules = extractDays(coursestructure_new);
 
     const [selectedDay, setSelectedDay] = useState<number>(1);
@@ -413,8 +413,8 @@ const Home: React.FC = () => {
               </ul>
             </div>
 
-            <div className="w-3/4 mx-auto">
-              <h2 className="text-2xl font-bold mb-4">Day {selectedDay}</h2>
+            <div className="w-3/4 mx-auto my-2">
+              <h2 className="text-2xl font-bold mb-4">Day {selectedDay} of  <span className="text-[#8678F9]">{coursestructure_new.name}</span> </h2>
 
               <div className="flex justify-around">
                 <div className="p-4 h-[85vh] overflow-y-scroll hide-scrollbar w-3/4">
@@ -431,23 +431,25 @@ const Home: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-[#8678F9] z-50 p-4 rounded-md w-1/5">
-                  {daysWithModules
-                    .find((day) => day.day === `Day ${selectedDay}`)
-                    ?.modules.map((module, index) => (
-                      <p key={index} className="mb-2 text-white font-bold">
-                        {module}
-                      </p>
-                    ))}
+                <div className="flex flex-col w-1/5">
+                  <div className="bg-[#8678F9] flex flex-col z-50 p-4 rounded-md w-full ">
+                    {daysWithModules
+                      .find((day) => day.day === `Day ${selectedDay}`)
+                      ?.modules.map((module, index) => (
+                        <p key={index} className="mb-2 text-white font-bold">
+                          {module}
+                        </p>
+                      ))}
+                  </div>
+
+                  <button
+                    className="px-2 py-1 flex justify-center z-50 bg-white text-black rounded-md mt-4"
+                    onClick={nextDay}
+                  >
+                    Next Day <MoveRight className="text-[#8678F9] mx-2" />
+                  </button>
                 </div>
               </div>
-
-              <button
-                className="px-2 py-1 bg-white text-black rounded-md mt-4"
-                onClick={nextDay}
-              >
-                Next Day
-              </button>
             </div>
           </div>
         </>
