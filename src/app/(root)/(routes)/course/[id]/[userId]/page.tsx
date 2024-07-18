@@ -196,6 +196,7 @@ const fetchData = async ({
 
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -252,85 +253,6 @@ interface ModuleData {
 }
 
 const Home: React.FC = () => {
-  const markdownContent = `
-  ## Introduction to HTML and Web Development
-  
-  Welcome to the exciting world of web development! This module serves as your foundational guide to understanding HTML, the core language of the internet. We'll explore its fundamental principles, learn how to create basic web pages, and grasp essential concepts to empower you in building interactive websites.
-  
-  ### 1. What is HTML?
-  
-  HTML, or HyperText Markup Language, is the standard markup language for creating web pages. It acts like the blueprint for your website, defining the structure and content of each page. HTML allows you to arrange text, images, videos, and interactive elements in a visually appealing and functional manner.
-  
-  ### 2. HTML Elements: Building Blocks of Web Pages
-  
-  At the heart of HTML are **elements**, which define the content and structure of a web page. Every element consists of an opening tag, content, and a closing tag. Here's a basic example:
-  
-  \`\`\`html
-  <h1>This is a heading</h1>
-  <p>This is a paragraph of text.</p>
-  \`\`\`
-  
-  Elements can be nested within each other, creating a hierarchical structure that represents the relationship between different parts of your web page.
-  
-  ### 3. Common HTML Elements
-  
-  Let's explore some frequently used HTML elements:
-  
-  * **Heading Elements (\`<h1>\` to \`<h6>\`):** Define different levels of headings. \`<h1>\` is the most important, used for main titles, while \`<h6>\` is the least, often used for subheadings.
-  
-  * **Paragraph Element (\`<p>\`):** Used for creating blocks of text.
-  
-  * **Image Element (\`<img>\`):** Inserts an image into the page. Requires a \`src\` attribute for specifying the image file path.
-  
-  * **Link Element (\`<a>\`):** Creates links to other web pages or resources. The \`href\` attribute specifies the target URL.
-  
-  * **List Elements (\`<ul>\`, \`<ol>\`):** Create unordered (bulleted) and ordered (numbered) lists. List items are defined using the \`<li>\` element.
-  
-  * **Table Element (\`<table>\`):** Creates a table to display data in a structured format. Includes elements like \`<tr>\` for rows, \`<th>\` for table headers, and \`<td>\` for table cells.
-  
-  ### 4. Attributes: Modifying Elements
-  
-  Attributes provide additional information about HTML elements and customize their behavior:
-  
-  * **\`src\` attribute for \`<img>\`:** Specifies the image source.
-  * **\`href\` attribute for \`<a>\`:** Specifies the URL for the link.
-  * **\`alt\` attribute for \`<img>\`:** Provides alternative text for images, used by screen readers or when images fail to load.
-  
-  ### 5. Creating Your First HTML Page
-  
-  Let's create a simple HTML file:
-  
-  \`\`\`html
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>My First Website</title>
-  </head>
-  <body>
-    <h1>Welcome to my Website!</h1>
-    <p>This is my first web page.</p>
-  </body>
-  </html>
-  \`\`\`
-  
-  * **\`<!DOCTYPE html>\`:** Declares the document type.
-  * **\`<html>\`:** The root element of the HTML document.
-  * **\`<head>\`:** Contains metadata about the page, like the title, which appears in the browser tab.
-  * **\`<title>\`:** Sets the title of the web page.
-  * **\`<body>\`:** Contains the visible content of the web page.
-  
-  ### 6. Practical Applications: Building Basic Websites
-  
-  HTML is a versatile tool for building various types of websites:
-  
-  * **Personal Blog:** Structure blog posts, titles, images, and links.
-  * **Simple Portfolio:** Showcase your work with images, text descriptions, and links to your projects.
-  * **Informational Website:** Provide information using headings, paragraphs, and images.
-  
-  ### 7. Conclusion
-  
-  This module introduced you to the fundamental concepts of HTML, laying the groundwork for your journey into web development. You learned about HTML elements, attributes, and how to create a basic web page. Remember, practice is key to mastering HTML. Experiment with creating your own web pages and explore further resources to expand your knowledge!
-  `;
   const pathname = usePathname();
   const search = pathname;
 
@@ -363,35 +285,44 @@ const Home: React.FC = () => {
             (day) => day.day === `Day ${selectedDay}`
           );
           if (selectedDayData) {
-            const module = selectedDayData.modules[0];
-            const contentIndex = module.indexOf(":");
-            const content = module.slice(contentIndex + 1).trim();
-
-            const data_Fetch = await fetchData({
-              moduleNumber: "1",
-              courseId: courseid,
-              dayNumber: String(selectedDay),
-              userId: userid,
-            });
-            const newData = {
-              day: selectedDay,
-              module: 1,
-              content: data_Fetch,
-            };
-
-            setModulesData((prevModulesData) => {
-              const exists = prevModulesData.some(
-                (data) =>
-                  data.day === newData.day &&
-                  data.module === newData.module &&
-                  data.content === newData.content
+            for (let i = 0; i < selectedDayData.modules.length; i++) {
+              const existingData = ModulesData.find(
+                (data) => data.day === selectedDay && data.module === i + 1
               );
-              if (exists) {
-                return prevModulesData; // If exists, return the previous data
-              } else {
-                return [...prevModulesData, newData]; // If not, append the new data
+
+              if (!existingData) {
+                const module = selectedDayData.modules[i];
+                const contentIndex = module.indexOf(":");
+                const content = module.slice(contentIndex + 1).trim();
+
+                const data_Fetch = await fetchData({
+                  moduleNumber: String(i + 1),
+                  courseId: courseid,
+                  dayNumber: String(selectedDay),
+                  userId: userid,
+                });
+                const newData = {
+                  day: selectedDay,
+                  module: i + 1,
+                  content: data_Fetch,
+                };
+
+                setModulesData((prevModulesData) => {
+                  const exists = prevModulesData.some(
+                    (data) =>
+                      data.day === newData.day &&
+                      data.module === newData.module &&
+                      data.content === newData.content
+                  );
+                  if (exists) {
+                    return prevModulesData; // If exists, return the previous data
+                  } else {
+                    return [...prevModulesData, newData]; // If not, append the new data
+                  }
+                });
+                console.log(selectedDayData);
               }
-            });
+            }
 
             setLoading(false);
             console.log(ModulesData);
@@ -409,14 +340,58 @@ const Home: React.FC = () => {
       console.log(selectedDay);
     }, [selectedDay]);
 
+    const selectedDayModules = ModulesData.filter(
+      (data) => data.day === selectedDay
+    );
+
     if (loading) {
-      return "Wait a second content is loading";
+      return (
+        <div className="flex h-[100vh] ">
+          <div className="w-1/5 z-50 h-screen p-4 bg-primary-foreground">
+            <h2 className="text-xl font-bold mb-4">Days</h2>
+            <ul>
+              {daysWithModules.map((dayData, index) => (
+                <li
+                  key={dayData.day}
+                  className={`p-2 mb-1 rounded-md cursor-pointer ${
+                    dayData.day === `Day ${selectedDay}`
+                      ? "bg-[#8678F9] text-white"
+                      : "bg-primary-foreground"
+                  }`}
+                  onClick={() => setSelectedDay(index + 1)}
+                >
+                  {dayData.day}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="w-3/4 mx-auto">
+            <h2 className="text-2xl font-bold mb-4">Day {selectedDay}</h2>
+
+            <div className="flex justify-around">
+              <div className="p-4 h-[87vh] overflow-y-scroll hide-scrollbar w-3/4">
+                <div className="flex flex-col items-center justify-center">
+                  <Image
+                    className="rounded-full mx-auto"
+                    width="300"
+                    height="300"
+                    alt="Loading..."
+                    src="/loader.gif"
+                  />
+                  <h1>Generating</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
     } else {
       console.log(ModulesData);
 
       return (
         <>
-          <div className="flex">
+          <div className="flex h-[100vh]">
             <div className="w-1/5 z-50 h-screen p-4 bg-primary-foreground">
               <h2 className="text-xl font-bold mb-4">Days</h2>
               <ul>
@@ -436,31 +411,48 @@ const Home: React.FC = () => {
               </ul>
             </div>
 
-            <div className="w-3/4 h-screen p-4">
+            <div className="w-3/4 mx-auto">
               <h2 className="text-2xl font-bold mb-4">Day {selectedDay}</h2>
-              <ul className="list-disc pl-5">
-                {daysWithModules
-                  .find((day) => day.day === `Day ${selectedDay}`)
-                  ?.modules.map((module, index) => (
-                    <li key={index} className="mb-2">
-                      {module}
-                    </li>
-                  ))}
-              </ul>
+
+              <div className="flex justify-around">
+                <div className="p-4 h-[85vh] overflow-y-scroll hide-scrollbar w-3/4">
+                  <div className="pl-5">
+                    {selectedDayModules.map((moduleData, index) => (
+                      <div
+                        key={index}
+                        className="mb-2"
+                        dangerouslySetInnerHTML={{
+                          __html: moduleData.content["data"],
+                        }}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-[#8678F9] z-50 p-4 rounded-md w-1/5">
+                  {daysWithModules
+                    .find((day) => day.day === `Day ${selectedDay}`)
+                    ?.modules.map((module, index) => (
+                      <p key={index} className="mb-2 text-white font-bold">
+                        {module}
+                      </p>
+                    ))}
+                </div>
+              </div>
+
               <button
                 className="px-2 py-1 bg-white text-black rounded-md mt-4"
                 onClick={nextDay}
               >
                 Next Day
               </button>
-              <Markdown remarkPlugins={[remarkGfm]}>{markdownContent}</Markdown>
             </div>
           </div>
         </>
       );
     }
   } else {
-    return "wating";
+    return "wating for conentent";
   }
 };
 

@@ -22,8 +22,8 @@ export async function POST(req: NextRequest) {
         const moduleData = await db.module.findFirst({
             where: {
                 courseId: data.courseId,
-                moduleNumber: data.moduleNumber,
-                dayNumber: data.dayNumber
+                moduleNumber: parseInt(data.moduleNumber),
+                dayNumber: parseInt(data.dayNumber)
             }
         });
 
@@ -43,11 +43,33 @@ export async function POST(req: NextRequest) {
         if (!course) {
             return NextResponse.json({ error: 'Module not found' });
         }
+
+
+        const existingTopic = await db.topic.findFirst({
+            where: {
+                moduleId: moduleData.id,
+            }
+        });
+
+        if (existingTopic) {
+            return NextResponse.json({ data: existingTopic.content });
+        }
+
         const prompt = GENRATE_MODULE(moduleData.title, course.courseName)
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text: any = response.text();
         console.log(text);
+
+        const newTopic = await db.topic.create({
+            data: {
+                moduleId: moduleData.id,
+                title: moduleData.title,
+                content: text,
+            }
+        });
+
+
 
         return NextResponse.json({ data: text });
 
