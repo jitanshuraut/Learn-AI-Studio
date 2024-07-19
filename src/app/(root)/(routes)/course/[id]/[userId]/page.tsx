@@ -219,8 +219,11 @@ const Home: React.FC = () => {
             </ul>
           </div>
 
-          <div className="w-[85%] mx-auto  p-4">
-            <h2 className="text-2xl font-bold mb-4">Day {selectedDay}</h2>
+          <div className="w-[85%] mx-auto p-4 ">
+            <h2 className="text-2xl font-bold mb-4">
+              Day {selectedDay} of{" "}
+              <span className="text-[#8678F9] mx-2">{coursestructure_new.name}</span>{" "}
+            </h2>
 
             <div className="flex justify-around">
               <div className="p-4 h-[87vh] overflow-y-scroll hide-scrollbar w-3/4">
@@ -234,6 +237,31 @@ const Home: React.FC = () => {
                   />
                   <h1>Generating</h1>
                 </div>
+              </div>
+              <div className="flex flex-col items-start w-1/5">
+                <h1 className="my-2 font-bold">Modules</h1>
+                <div className=" bg-primary-foreground  flex flex-col z-50 p-4 rounded-md w-full ">
+                  {daysWithModules
+                    .find((day) => day.day === `Day ${selectedDay}`)
+                    ?.modules.map((module, index) => (
+                      <p
+                        key={index}
+                        className={`mb-2 text-white text-sm p-3  ${index + 1 == selectModule ? "bg-[#8678F9]" : "border-2"}  font-bold  rounded-md cursor-pointer`}
+                        onClick={() => {
+                          setselectModule(index + 1);
+                        }}
+                      >
+                        {module.split(": ")[1]}
+                      </p>
+                    ))}
+                </div>
+
+                <button
+                  className="px-2 w-full py-1 flex justify-center z-50 bg-white text-black rounded-md mt-4"
+                  onClick={nextDay}
+                >
+                  Next Day <MoveRight className="text-[#8678F9] mx-2" />
+                </button>
               </div>
             </div>
           </div>
@@ -272,7 +300,7 @@ const Home: React.FC = () => {
             <div className="w-[85%] mx-auto p-4 ">
               <h2 className="text-2xl font-bold mb-4">
                 Day {selectedDay} of{" "}
-                <span className="text-[#8678F9]">
+                <span className="text-[#8678F9] mx-2">
                   {coursestructure_new.name}
                 </span>{" "}
               </h2>
