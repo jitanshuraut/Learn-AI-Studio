@@ -2,6 +2,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Coursescard from "@/components/ui/DashBoard/courses-card";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import Loader from "@/components/ui/card-skeleton";
 
 const IMG_arr = ["/c4.png", "/c3.png", "/c2.jpg", "/c1.jpg"];
 
@@ -31,23 +32,31 @@ function useUserCourses(userId: string) {
   if (error) {
     throw error;
   }
-
   return data;
 }
 
 const CoursesList = ({ userId }: { userId: string }) => {
   const courses = useUserCourses(userId);
-  // console.log(courses);
-  // console.log(Math.ceil(Math.random() * 100) % 3);
-
-  return (
-    <>
-      {courses &&
-        courses.map((course: any) => (
-          <Coursescard key={course.id} course={course} UserId={userId} />
-        ))}
-    </>
-  );
+  console.log(courses);
+  console.log(Math.ceil(Math.random() * 100) % 3);
+  if (courses) {
+    return (
+      <>
+        {courses &&
+          courses.map((course: any) => (
+            <Coursescard key={course.id} course={course} UserId={userId} />
+          ))}
+      </>
+    );
+  } else {
+    return (
+      <>
+        {[1, 2, 3, 4, 5].map((item: number, index: number) => {
+          return <Loader key={index} />;
+        })}
+      </>
+    );
+  }
 };
 
 function Page() {
@@ -56,7 +65,7 @@ function Page() {
   console.log(userId);
 
   if (!userId) {
-    return <div>Loading...</div>; // Or some placeholder while the session is loading
+    return <Loader />; // Or some placeholder while the session is loading
   }
 
   return (

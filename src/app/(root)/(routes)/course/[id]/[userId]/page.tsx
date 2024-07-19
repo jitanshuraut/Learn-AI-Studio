@@ -5,6 +5,9 @@ import Image from "next/image";
 import { MoveRight } from "lucide-react";
 import { Disc } from "lucide-react";
 import { Module } from "module";
+import ContentLoader from "@/components/ui/content-skeleton";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 const fetchData = async ({
   moduleNumber,
   courseId,
@@ -196,7 +199,14 @@ const Home: React.FC = () => {
       return (
         <div className="flex h-[100vh] ">
           <div className="w-[10%] z-50 h-screen p-4 bg-primary-foreground">
-            <h2 className="text-xl font-bold mb-4">Days</h2>
+            <Link
+              className="mb-6 mx-auto flex justify-center p-2 border-2 rounded-md"
+              href={"/dashboard/courses"}
+            >
+              <ArrowLeft className="mx-1" />
+              <h2>Home</h2>
+            </Link>
+
             <ul>
               {daysWithModules.map((dayData, index) => (
                 <li
@@ -222,12 +232,14 @@ const Home: React.FC = () => {
           <div className="w-[85%] mx-auto p-4 ">
             <h2 className="text-2xl font-bold mb-4">
               Day {selectedDay} of{" "}
-              <span className="text-[#8678F9] mx-2">{coursestructure_new.name}</span>{" "}
+              <span className="text-[#8678F9] mx-2">
+                {coursestructure_new.name}
+              </span>{" "}
             </h2>
 
             <div className="flex justify-around">
               <div className="p-4 h-[87vh] overflow-y-scroll hide-scrollbar w-3/4">
-                <div className="flex flex-col items-center justify-center">
+                {/* <div className="flex flex-col items-center justify-center">
                   <Image
                     className="rounded-full mx-auto"
                     width="300"
@@ -236,7 +248,8 @@ const Home: React.FC = () => {
                     src="/loader.gif"
                   />
                   <h1>Generating</h1>
-                </div>
+                </div> */}
+                <ContentLoader />
               </div>
               <div className="flex flex-col items-start w-1/5">
                 <h1 className="my-2 font-bold">Modules</h1>
@@ -274,7 +287,13 @@ const Home: React.FC = () => {
         <>
           <div className="flex h-[100vh]">
             <div className="w-[10%] z-50 h-screen p-4 bg-primary-foreground">
-              <h2 className="text-xl font-bold mb-4">Days</h2>
+              <Link
+                className="mb-6 mx-auto flex justify-center p-2 border-2 rounded-md"
+                href={"/dashboard/courses"}
+              >
+                <ArrowLeft className="mx-1" />
+                <h2>Home</h2>
+              </Link>
               <ul>
                 {daysWithModules.map((dayData, index) => (
                   <li
