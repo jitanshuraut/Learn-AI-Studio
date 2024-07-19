@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { MoveRight } from "lucide-react";
 import { Disc } from "lucide-react";
+import { Module } from "module";
 const fetchData = async ({
   moduleNumber,
   courseId,
@@ -112,6 +113,7 @@ const Home: React.FC = () => {
     const daysWithModules = extractDays(coursestructure_new);
 
     const [selectedDay, setSelectedDay] = useState<number>(1);
+    const [selectModule, setselectModule] = useState<number>(1);
     const [ModulesData, setModulesData] = useState<ModuleData[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -120,6 +122,7 @@ const Home: React.FC = () => {
         const nextIndex = (prevDay % daysWithModules.length) + 1;
         return nextIndex;
       });
+      setselectModule(1);
     };
 
     useEffect(() => {
@@ -130,51 +133,51 @@ const Home: React.FC = () => {
             (day) => day.day === `Day ${selectedDay}`
           );
           if (selectedDayData) {
-            for (let i = 0; i < selectedDayData.modules.length; i++) {
-              const existingData = ModulesData.find(
-                (data) => data.day === selectedDay && data.module === i + 1
-              );
+            // for (let i = 0; i < selectedDayData.modules.length; i++) {
+            const existingData = ModulesData.find(
+              (data) => data.day === selectedDay && data.module === selectModule
+            );
 
-              if (!existingData) {
-                const module = selectedDayData.modules[i];
-                const contentIndex = module.indexOf(":");
-                const content = module.slice(contentIndex + 1).trim();
+            if (!existingData) {
+              const module = selectedDayData.modules[selectModule - 1];
+              const contentIndex = module.indexOf(":");
+              const content = module.slice(contentIndex + 1).trim();
 
-                const data_Fetch = await fetchData({
-                  moduleNumber: String(i + 1),
-                  courseId: courseid,
-                  dayNumber: String(selectedDay),
-                  userId: userid,
-                });
-                const newData = {
-                  day: selectedDay,
-                  module: i + 1,
-                  content: data_Fetch,
-                };
+              const data_Fetch = await fetchData({
+                moduleNumber: String(selectModule),
+                courseId: courseid,
+                dayNumber: String(selectedDay),
+                userId: userid,
+              });
+              const newData = {
+                day: selectedDay,
+                module: selectModule,
+                content: data_Fetch,
+              };
 
-                setModulesData((prevModulesData) => {
-                  const exists = prevModulesData.some(
-                    (data) =>
-                      data.day === newData.day &&
-                      data.module === newData.module &&
-                      data.content === newData.content
-                  );
-                  if (exists) {
-                    return prevModulesData; // If exists, return the previous data
-                  } else {
-                    return [...prevModulesData, newData]; // If not, append the new data
-                  }
-                });
-                console.log(selectedDayData);
-              }
+              setModulesData((prevModulesData) => {
+                const exists = prevModulesData.some(
+                  (data) =>
+                    data.day === newData.day &&
+                    data.module === newData.module &&
+                    data.content === newData.content
+                );
+                if (exists) {
+                  return prevModulesData; // If exists, return the previous data
+                } else {
+                  return [...prevModulesData, newData]; // If not, append the new data
+                }
+              });
+              console.log(selectedDayData);
             }
-
-            setLoading(false);
-            console.log(ModulesData);
-            // console.log(content);
-            // console.log(coursestructure_new['name']);
-            // console.log(userid);
           }
+
+          setLoading(false);
+          console.log(ModulesData);
+          // console.log(content);
+          // console.log(coursestructure_new['name']);
+          // console.log(userid);
+          // }
         } catch (error) {
           console.error("Error fetching course data:", error);
           setLoading(false);
@@ -183,10 +186,10 @@ const Home: React.FC = () => {
 
       fetchCourseData();
       console.log(selectedDay);
-    }, [selectedDay]);
+    }, [selectedDay, selectModule]);
 
     const selectedDayModules = ModulesData.filter(
-      (data) => data.day === selectedDay
+      (data) => data.day === selectedDay && data.module === selectModule
     );
 
     if (selectedDayModules.length == 0) {
@@ -291,13 +294,16 @@ const Home: React.FC = () => {
 
                 <div className="flex flex-col items-start w-1/5">
                   <h1 className="my-2 font-bold">Modules</h1>
-                  <div className="bg-[#8678F9] flex flex-col z-50 p-4 rounded-md w-full ">
+                  <div className=" bg-primary-foreground  flex flex-col z-50 p-4 rounded-md w-full ">
                     {daysWithModules
                       .find((day) => day.day === `Day ${selectedDay}`)
                       ?.modules.map((module, index) => (
                         <p
                           key={index}
-                          className="mb-2 text-white font-bold bg-primary-foreground p-2 rounded-md"
+                          className={`mb-2 text-white text-sm p-3  ${index + 1 == selectModule ? "bg-[#8678F9]" : "border-2"}  font-bold  rounded-md cursor-pointer`}
+                          onClick={() => {
+                            setselectModule(index + 1);
+                          }}
                         >
                           {module.split(": ")[1]}
                         </p>
