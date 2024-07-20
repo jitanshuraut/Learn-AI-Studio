@@ -3,7 +3,7 @@ export interface CourseStatus {
     name: string;
     numberofdays: number;
     safe: boolean;
-    Introduction:any
+    Introduction: any
 }
 
 export interface ModuleData {
@@ -64,3 +64,32 @@ export interface BackButtonProps {
 export interface HeaderProps {
     title: string
 }
+
+export type CourseData = {
+    name: string;
+    numberofdays: number;
+    Introduction: string[];
+    Assessment: string[];
+    Conclusion: string[];
+    ReferenceBooks: {
+        title: string;
+        version: string;
+        author: string;
+        source: string;
+    }[];
+    CourseStructureInfluence: string;
+    [key: string]:
+    | string
+    | number
+    | string[]
+    | { title: string; version: string; author: string; source: string }[]
+    | undefined;
+};
+
+export interface ModuleData {
+    day: number;
+    module: number;
+    content: {
+      data: string;
+    };
+  }

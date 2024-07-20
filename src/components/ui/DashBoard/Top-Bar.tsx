@@ -105,7 +105,7 @@ function Top_Bar() {
         </form>
       </div>
 
-      <div className="mx-2 px-2 py-1 border-2 flex justify-between">
+      <div className="mx-2 px-2 py-1  border border-white rounded-md flex justify-between">
         <p>Credit :{Credit}</p>{" "}
         <DollarSign className="text-[#8678F9] text-sm" />
       </div>

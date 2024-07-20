@@ -6,6 +6,7 @@ import { logout } from "@/actions/logout";
 import { Button } from "../button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Archive } from "lucide-react";
 
 function Navbar() {
   const router = useRouter();
@@ -21,13 +22,13 @@ function Navbar() {
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
-            <Image 
-            src="/dummy.png"
-            width={40}
-            alt="logo"
-            height={40}
-            className="rounded-xl"
-            />
+              <Image
+                src="/dummy.png"
+                width={40}
+                alt="logo"
+                height={40}
+                className="rounded-xl"
+              />
               <span className="text-[#8678F9]">Ai-Learn Studio</span>
             </Link>
           </div>
@@ -58,7 +59,6 @@ function Navbar() {
                 <Boxes className="h-4 w-4" />
                 Courses
               </Link>
-
               <Link
                 onClick={() => handleLinkClick("Credit")}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 cursor-pointer transition-all ${
@@ -70,6 +70,19 @@ function Navbar() {
               >
                 <DollarSign className="h-4 w-4" />
                 Credit
+              </Link>
+
+              <Link
+                onClick={() => handleLinkClick("Archive")}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 cursor-pointer transition-all ${
+                  activeLink === "Archive"
+                    ? "text-primary"
+                    : "text-muted-foreground"
+                } hover:text-[#8678F9] hover:bg-white`}
+                href={"/dashboard/archive"}
+              >
+                <Archive className="h-4 w-4" />
+                Archive
               </Link>
             </nav>
           </div>

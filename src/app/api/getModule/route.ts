@@ -75,6 +75,35 @@ export async function POST(req: NextRequest) {
             }
         });
 
+        const newProgess_check = await db.progress.findFirst({
+            where: {
+                moduleId: moduleData.id
+            }
+        });
+
+        if (!newProgess_check) {
+
+            const newProgess = await db.progress.create({
+                data: {
+                    moduleId: moduleData.id,
+                    courseId: data.courseId,
+                    userId: data.userId,
+                    status: "success",
+                }
+            });
+
+
+            const updatedCourse = await db.course.update({
+                where: {
+                    id: data.courseId as string,
+                },
+                data: {
+                    ModuleCreated: {
+                        increment: 1,
+                    },
+                },
+            });
+        }
 
         const redis_resp = await redis.set(String(moduleData.id), String(text));
         console.log(redis_resp);

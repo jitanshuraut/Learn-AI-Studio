@@ -4,6 +4,8 @@ import Coursescard from "@/components/ui/DashBoard/courses-card";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import Loader from "@/components/ui/card-skeleton";
 
+
+
 function useUserCourses(userId: string) {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -11,7 +13,7 @@ function useUserCourses(userId: string) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/getUserCourses/${userId}/0`);
+        const response = await fetch(`/api/getUserCourses/${userId}/1`);
         if (!response.ok) {
           throw new Error("Failed to fetch courses");
         }
@@ -47,7 +49,7 @@ const CoursesList = ({ userId }: { userId: string }) => {
               key={course.id}
               course={course}
               UserId={userId}
-              archiveDefault={0}
+              archiveDefault={1}
             />
           ))}
       </>
@@ -62,7 +64,6 @@ const CoursesList = ({ userId }: { userId: string }) => {
     );
   }
 };
-
 
 function Page() {
   const session = useCurrentUser();
