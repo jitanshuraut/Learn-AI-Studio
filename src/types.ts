@@ -86,7 +86,7 @@ export type CourseData = {
     | undefined;
 };
 
-export interface ModuleData {
+export interface ModuleData_Fetch {
     day: number;
     module: number;
     content: {

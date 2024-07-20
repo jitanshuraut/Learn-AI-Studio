@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { MoveRight, ArrowLeft, Disc } from "lucide-react";
 import ContentLoader from "@/components/ui/content-skeleton";
 import Link from "next/link";
-import { ModuleData } from "@/types";
+import { ModuleData_Fetch } from "@/types";
 import { extractAndDecodeSegments, extractDays } from "@/lib/utils";
 
 const fetchData = async ({
@@ -54,7 +54,7 @@ const Home: React.FC = () => {
 
   const [selectedDay, setSelectedDay] = useState<number>(1);
   const [selectModule, setSelectModule] = useState<number>(1);
-  const [modulesData, setModulesData] = useState<ModuleData[]>([]);
+  const [modulesData, setModulesData] = useState<ModuleData_Fetch[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const Home: React.FC = () => {
                 content: dataFetch,
               };
 
-              setModulesData((prevModulesData) => {
+              setModulesData((prevModulesData: ModuleData_Fetch[]) => {
                 const exists = prevModulesData.some(
                   (data) =>
                     data.day === newData.day &&
@@ -108,6 +108,7 @@ const Home: React.FC = () => {
                   return [...prevModulesData, newData];
                 }
               });
+
               console.log(selectedDayData);
             }
           }
