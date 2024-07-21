@@ -67,7 +67,7 @@ Example Formatting:
 <p>...</p>
 
 <br>
-<hr style="border: 5px solid #8678F9;">
+<hr style="border: 2px solid #8678F9; border-radius: 5px;">
 <h2>Subheading</h2>
 <h3>...</h3>
 <p> ... </p>
@@ -76,7 +76,7 @@ Example Formatting:
 <p> ... </p>
 
 <br>
-<hr style="border: 5px solid #8678F9;">
+<hr style="border: 2px solid #8678F9; border-radius: 5px;">
 <h2>Subheading</h2>
 <h3>...</h3>
 <p> ... </p><br>
