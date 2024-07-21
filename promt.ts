@@ -54,6 +54,7 @@ Format the content in HTML, skipping head and body tags. Directly provide conten
 Important points and headings should be bold and large in size.
 Avoid nesting spans inside h1 tags.
 Use text color #8678F9 for headings and white for the rest of the content.
+When including code snippets, format them with a white background and black text.
 Utilize TailwindCSS for styling and JSX for the code.
 Ensure all heading tags are larger than normal text having #8678F9 colour.
 Precede all second-level headings (main headings other than the module) with a horizontal bar <hr>.
