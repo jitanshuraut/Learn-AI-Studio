@@ -55,7 +55,7 @@ Important points and headings should be bold and large in size.
 Avoid nesting spans inside h1 tags.
 Use text color #8678F9 for headings and white for the rest of the content.
 Utilize TailwindCSS for styling and JSX for the code.
-Ensure heading tags are larger than normal text.
+Ensure all heading tags are larger than normal text having #8678F9 colour.
 Precede all second-level headings (main headings other than the module) with a horizontal bar <hr>.
 Ensure there is one empty line before each heading inside the main headings.
 Use proper indentation for bullet points or numbered lists.
@@ -66,8 +66,21 @@ Example Formatting:
 <h1>Main Heading</h1>
 <p>...</p>
 
+<hr></hr>
 <h2>Subheading</h2>
-<p>...</p>
+<h3>...</h3>
+<p> ... </p>
+
+<h3>...</h3>
+<p> ... </p>
+
+<hr></hr>
+<h2>Subheading</h2>
+<h3>...</h3>
+<p> ... </p>
+
+<h3>...</h3>
+<p> ... </p>
 
 <ul>
   <li>Indented bullet point</li>
@@ -75,4 +88,3 @@ Example Formatting:
 </ul>
 Ensure that the content adheres to these formatting guidelines to maintain a consistent and professional appearance.`
 }
-
