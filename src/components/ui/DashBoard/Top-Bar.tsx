@@ -31,6 +31,20 @@ function Top_Bar() {
   const session = useCurrentUser();
   const { Credit, setCredit } = useCredit();
 
+  const handelsubmit = async () => {
+    
+    try {
+      const response = await fetch(`/api/search`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch courses");
+      }
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet>
@@ -93,7 +107,12 @@ function Top_Bar() {
         </SheetContent>
       </Sheet>
       <div className="w-full flex-1">
-        <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault(); 
+            handelsubmit();
+          }}
+        >
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input

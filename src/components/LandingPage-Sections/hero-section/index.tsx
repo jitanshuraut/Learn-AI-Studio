@@ -7,6 +7,7 @@ import Spotlight from "../../ui/LandingPage/Spotlight";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
+
 export default function HeroSection() {
   const ref = React.useRef(null);
   const isInView = useInView(ref);
@@ -25,6 +26,7 @@ export default function HeroSection() {
       router.push("/login");
     }
   };
+
 
   return (
     <>
