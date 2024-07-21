@@ -67,7 +67,7 @@ Example Formatting:
 <p>...</p>
 
 <br>
-<hr></hr> !-- 0.5cm Thick line of #8678F9 --!
+<hr style="border: 5px solid #8678F9;">
 <h2>Subheading</h2>
 <h3>...</h3>
 <p> ... </p>
@@ -76,7 +76,7 @@ Example Formatting:
 <p> ... </p>
 
 <br>
-<hr></hr> !--  0.5cm Thick line of #8678F9--!
+<hr style="border: 5px solid #8678F9;">
 <h2>Subheading</h2>
 <h3>...</h3>
 <p> ... </p><br>
