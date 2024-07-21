@@ -66,7 +66,8 @@ Example Formatting:
 <h1>Main Heading</h1>
 <p>...</p>
 
-<hr></hr>
+<br>
+<hr></hr> !-- 0.5cm Thick line of #8678F9 --!
 <h2>Subheading</h2>
 <h3>...</h3>
 <p> ... </p>
@@ -74,16 +75,19 @@ Example Formatting:
 <h3>...</h3>
 <p> ... </p>
 
-<hr></hr>
+<br>
+<hr></hr> !--  0.5cm Thick line of #8678F9--!
 <h2>Subheading</h2>
 <h3>...</h3>
-<p> ... </p>
+<p> ... </p><br>
 
 <h3>...</h3>
-<p> ... </p>
+<p> ... </p><br>
 
 <ul>
+  <br>
   <li>Indented bullet point</li>
+  <br>
   <li><b>Bold text</b></li>
 </ul>
 Ensure that the content adheres to these formatting guidelines to maintain a consistent and professional appearance.`
