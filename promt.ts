@@ -91,7 +91,7 @@ Example Formatting:
   <li><b>Bold text</b></li>
 </ul>
 
-<pre style="background-color: rgba(0, 0, 0, 0.2); color: #ffffff; padding: 1em; border-radius: 5px;">
+<pre style="background-color: rgba(255, 255, 255, 0.1); color: #ffffff; padding: 1em; border-radius: 5px;">
     <code>
         // Sample code block
     </code>
