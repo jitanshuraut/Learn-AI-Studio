@@ -51,8 +51,28 @@ export const GENRATE_MODULE = (module: string, course: string) => {
 Format the content in HTML, skipping head and body tags. Directly provide content like:
 <h1>Heading</h1>
 <p>...</p>
-Important points and headings should be bold and large in size. Avoid nesting spans inside h1 tags. Use text color #8678F9 for headings and white for the rest of the content. Utilize TailwindCSS for styling and JSX for the code. Ensure heading tags are larger than normal text. Separate topics with lines and provide ample space between different topics. Avoid structures like:
-<h1><span>...</span></h1>
-Present the content in a professional instructional style, similar to how a seasoned educator would deliver a lecture. Include thorough explanations with technical depth, illustrative examples, and practical scenarios that underscore the relevance of "${module}" in the context of "${course}". Structure the material with clear headings, subheadings, and a logical flow to aid comprehension. Aim for a blend of clarity, precision, and academic rigor to facilitate optimal learning outcomes.`
+Important points and headings should be bold and large in size.
+Avoid nesting spans inside h1 tags.
+Use text color #8678F9 for headings and white for the rest of the content.
+Utilize TailwindCSS for styling and JSX for the code.
+Ensure heading tags are larger than normal text.
+Precede all second-level headings (main headings other than the module) with a horizontal bar <hr>.
+Ensure there is one empty line before each heading inside the main headings.
+Use proper indentation for bullet points or numbered lists.
+Use the <b> tag for indicating bold text.
+Present the content in a professional instructional style, similar to how a seasoned educator would deliver a lecture. Include thorough explanations with technical depth, illustrative examples, and practical scenarios that underscore the relevance of "${module}" in the context of "${course}". Structure the material with clear headings, subheadings, and a logical flow to aid comprehension. Aim for a blend of clarity, precision, and academic rigor to facilitate optimal learning outcomes.
+Example Formatting:
+<hr>
+<h1>Main Heading</h1>
+<p>...</p>
+
+<h2>Subheading</h2>
+<p>...</p>
+
+<ul>
+  <li>Indented bullet point</li>
+  <li><b>Bold text</b></li>
+</ul>
+Ensure that the content adheres to these formatting guidelines to maintain a consistent and professional appearance.`
 }
 
