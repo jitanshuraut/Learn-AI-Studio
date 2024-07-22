@@ -7,7 +7,7 @@ import { Button } from "../../ui/button";
 function AboutSection() {
   return (
     <div id="about" className="w-[95%] mx-auto">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center md:flex-row flex-col">
         <div className="md:w-[30%] w-auto flex h-96 overflow-hidden rounded-lg border">
           <Image
             src="/dummy.png"
@@ -17,7 +17,7 @@ function AboutSection() {
             className="w-full object-contain"
           />
         </div>
-        <div className="w-[60%] flex flex-col py-8">
+        <div className="md:w-[60%] w-auto flex flex-col py-8">
           <h3 className="text-4xl font-headingAlt my-3">
             Turning prompts into{" "}
             <span className="text-[#8678F9]"> personalized</span> educational
