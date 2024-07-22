@@ -34,6 +34,10 @@ const client = new Pinecone({
 })
 const vectorDimensions = 768;
 (async function () {
-    await createPineconeIndex(client, "course", vectorDimensions);
+    try {
+        await createPineconeIndex(client, "course", vectorDimensions);
+    } catch (err) {
+        console.log("already exits");
+    }
 })();
 export { model, modelEmbedding, client };

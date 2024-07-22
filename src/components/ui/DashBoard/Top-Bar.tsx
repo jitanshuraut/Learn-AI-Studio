@@ -1,10 +1,7 @@
 "use client";
 import Link from "next/link";
 import {
-  Bell,
-  CircleUser,
   Home,
-  LineChart,
   Menu,
   Package,
   Package2,
@@ -13,7 +10,7 @@ import {
   Users,
   DollarSign,
 } from "lucide-react";
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Badge } from "./badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/LandingPage/card";
@@ -26,24 +23,59 @@ import {
 import { useCurrentUser } from "@/hooks/use-current-user";
 import Image from "next/image";
 import { useCredit } from "@/components/credit-provider";
+import useDebounce from "@/hooks/useDebounce";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
+interface DataItem {
+  id: string;
+  name: string;
+}
 function Top_Bar() {
   const session = useCurrentUser();
   const { Credit, setCredit } = useCredit();
+  const [Query, setQuery] = useState<string>("");
+  const [dataQuery, setdataQuery] = useState<DataItem[]>([]);
+  const [prevLength, setPrevLength] = useState<number>(0);
 
   const handelsubmit = async () => {
-    
     try {
-      const response = await fetch(`/api/search`);
+      const response = await fetch(`/api/search`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Query: Query,
+        }),
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch courses");
       }
       const data = await response.json();
       console.log(data);
+      setdataQuery(data.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const debouncedSearchTerm = useDebounce(Query, 100);
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      handelsubmit();
+      console.log("Fetching data for:", debouncedSearchTerm);
+    }
+  }, [debouncedSearchTerm]);
+
+  const handelcourserouting = async () => {};
 
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -109,19 +141,41 @@ function Top_Bar() {
       <div className="w-full flex-1">
         <form
           onSubmit={(e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             handelsubmit();
           }}
         >
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute  left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search courses..."
               className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
             />
           </div>
         </form>
+        {dataQuery.length > 0 && Query.length > 0 ? (
+          <div className="absolute top-14 z-50 w-96 p-2 bg-white rounded-md ">
+            <ul>
+              {dataQuery.map((item) => (
+                <li
+                  key={item.id}
+                  className="p-2 my-1 bg-primary-foreground border-2 cursor-pointer rounded-md"
+                  onClick={() => {
+                    handelcourserouting();
+                  }}
+                >
+                  {item.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
 
       <div className="mx-2 px-2 py-1  border border-white rounded-md flex justify-between">

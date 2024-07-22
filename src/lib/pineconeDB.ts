@@ -1,8 +1,7 @@
 import { modelEmbedding } from '../../genAI'
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 const timeout = 180000
 
-export const queryPineconeVectorStoreAndQueryLLM = async (
+export const queryPineconeVectorStore = async (
     client: any,
     indexName: any,
     question: any
@@ -10,21 +9,22 @@ export const queryPineconeVectorStoreAndQueryLLM = async (
 
     console.log('Querying Pinecone vector store...');
     const index = client.Index(indexName);
+    console.log('Querying', question)
     const queryEmbedding = await modelEmbedding.embedContent(question)
     console.log(queryEmbedding.embedding.values);
     let queryResponse = await index.query({
-        queryRequest: {
-            topK: 10,
-            vector: queryEmbedding,
-            includeMetadata: true,
-            includeValues: true,
-        },
+        vector: queryEmbedding.embedding.values,
+        topK: 10,
+        includeValues: true,
+        includeMetadata: true,
     });
 
     console.log(`Found ${queryResponse.matches.length} matches...`);
     console.log(`Asking question: ${question}...`);
-
+    return queryResponse;
 };
+
+
 export const createPineconeIndex = async (
     client: any,
     indexName: any,
@@ -34,9 +34,6 @@ export const createPineconeIndex = async (
     console.log(`Checking "${indexName}"...`);
     const existingIndexes = await client.listIndexes();
     console.log(existingIndexes)
-
-    // if (!existingIndexes.includes(indexName)) {
-
     await client.createIndex({
         name: indexName,
         dimension: vectorDimension,
@@ -48,9 +45,6 @@ export const createPineconeIndex = async (
             }
         }
     });
-    // }
-
-
 };
 
 
@@ -63,6 +57,7 @@ export const updatePinecone = async (client: any, indexName: any, docs: any) => 
     const vector = {
         id: docs.id,
         values: queryEmbedding.embedding.values,
+        metadata: { name: docs.name }
     };
 
     await index.upsert([vector]);

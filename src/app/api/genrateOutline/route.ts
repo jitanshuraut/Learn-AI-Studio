@@ -4,7 +4,8 @@ import { model } from "../../../../genAI";
 import { db } from "@/lib/db"
 import { extractAndParseJSON, ModuleCreator } from "@/lib/jsonParser"
 import { ModuleData, CourseStatus } from "@/types"
-
+import { updatePinecone } from "@/lib/pineconeDB";
+import { client } from "../../../../genAI";
 
 async function storeModuleData(modules: ModuleData[] | null, courseId: string) {
 
@@ -103,6 +104,13 @@ export async function POST(req: NextRequest) {
                 },
             })
 
+            const pinecone_data = {
+                "id": course.id,
+                "content": course.Introduction,
+                "name": course.courseName
+            }
+
+            await updatePinecone(client, "course", pinecone_data)
             storeModuleData(ModuleText, course.id)
             return NextResponse.json(module_text);
         } else {

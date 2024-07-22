@@ -74,7 +74,7 @@ function Page() {
   }
 
   return (
-    <div className="grid z-50 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-[90vh] overflow-scroll hide-scrollbar">
+    <div className="grid z-20 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-[90vh] overflow-scroll hide-scrollbar">
       <Suspense fallback={<div>Loading courses...</div>}>
         <CoursesList userId={userId} />
       </Suspense>
