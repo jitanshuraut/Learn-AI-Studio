@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useCredit } from "../credit-provider";
 import { CourseCardProps } from "@/types";
+import { useBlur } from "@/components/ui/blur-provider";
 
 function toTitleCase(str: string) {
   return str
@@ -71,6 +72,7 @@ const encodeBase64 = (str: string) => {
 };
 
 export function Placeholders() {
+  const { isBlurred, setIsBlurred } = useBlur();
   const [Query, setQuery] = useState<string>("deep learning");
   const [generating, setGenerating] = useState<boolean>(false);
   const [isDisable, setisDisable] = useState<boolean>(false);
@@ -200,7 +202,6 @@ export function Placeholders() {
               className="mt-5 z-10 px-2 py-1 flex items-center justify-between bg-white text-black rounded-md cursor-pointer"
               href={`/dashboard/courses`}
               target="_blank"
-             
             >
               Check it out <ArrowUpRight size={16} className="ml-2" />
             </Link>
@@ -246,7 +247,9 @@ export function Placeholders() {
   };
 
   return (
-    <div className="h-[40rem] overflow-scroll flex flex-col justify-start  items-center px-4 hide-scrollbar">
+    <div
+      className={`h-[40rem] overflow-scroll flex flex-col justify-start  items-center px-4 hide-scrollbar ${isBlurred == true ? "blur-sm" : ""}`}
+    >
       <h2 className="mb-10 sm:mb-20 text-xl  text-center sm:text-5xl dark:text-white text-black">
         Your <span className="text-[#8678F9] font-bold"> Questions</span>, Our{" "}
         <span className="text-[#8678F9] font-bold">Courses</span>
