@@ -168,7 +168,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex h-[100vh]">
-      <div className="w-[10%] z-50 h-screen p-4 bg-primary-foreground">
+      <div className="w-[30%] md:w-[10%] z-50 h-screen p-4 bg-primary-foreground">
         <Link
           className="mb-6 mx-auto flex justify-center p-2 border-2 rounded-md"
           href="/dashboard/courses"
@@ -199,7 +199,7 @@ const Home: React.FC = () => {
         </ul>
       </div>
 
-      <div className="w-[85%] mx-auto p-4">
+      <div className="w-[70%] md:w-[85%] mx-auto p-4">
         <h2 className="text-2xl font-bold mb-4">
           Day {selectedDay} of{" "}
           <span className="text-[#8678F9] mx-2">
@@ -209,8 +209,8 @@ const Home: React.FC = () => {
           </span>
         </h2>
 
-        <div className="flex justify-around">
-          <div className="p-4 h-[87vh] overflow-y-scroll hide-scrollbar w-3/4">
+        <div className="flex justify-around md:flex-row flex-col-reverse ">
+          <div className="p-4 h-[87vh] overflow-y-scroll hide-scrollbar md:w-3/4 w-full">
             {selectedDayModules.length === 0 ? (
               <ContentLoader />
             ) : (
@@ -227,7 +227,7 @@ const Home: React.FC = () => {
               </div>
             )}
           </div>
-          <div className="flex flex-col items-start w-1/5">
+          <div className="flex flex-col items-start md:w-1/5 w-full">
             <h1 className="my-2 font-bold">Modules</h1>
             <div className="bg-primary-foreground flex flex-col z-50 p-4 rounded-md w-full">
               {daysWithModules

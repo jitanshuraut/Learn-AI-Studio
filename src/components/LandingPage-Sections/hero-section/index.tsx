@@ -7,7 +7,6 @@ import Spotlight from "../../ui/LandingPage/Spotlight";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
-
 export default function HeroSection() {
   const ref = React.useRef(null);
   const isInView = useInView(ref);
@@ -27,15 +26,12 @@ export default function HeroSection() {
     }
   };
 
-
   return (
     <>
-      
       <div
         id="home"
-        className="mx-auto max-w-6xl mt-12 px-6 lg:px-8 bg-transparent relative"
+        className="mx-auto max-w-6xl  mt-12 px-6 lg:px-8 bg-transparent relative"
       >
-      
         <div className="max-w-4xl absolute">
           <Spotlight fill="#9284D4" />
         </div>
@@ -63,7 +59,7 @@ export default function HeroSection() {
 
             <motion.h1
               variants={FADE_DOWN_ANIMATION_VARIANTS}
-              className="text-4xl font-bold font-headingAlt bg-gradient-to-tr from-purple-300/100 to-white/50 bg-clip-text text-transparent tracking-normal sm:text-7xl  md:text-9xl"
+              className="text-7xl font-bold font-headingAlt bg-gradient-to-tr from-purple-300/100 to-white/50 bg-clip-text text-transparent tracking-normal sm:text-7xl  md:text-9xl"
             >
               <Feeder feed="Features" />
               <div className="mb-4"></div>

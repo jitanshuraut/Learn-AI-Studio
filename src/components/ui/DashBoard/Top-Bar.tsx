@@ -9,6 +9,9 @@ import {
   ShoppingCart,
   Users,
   DollarSign,
+  Brain,
+  Boxes,
+  Archive,
 } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { Badge } from "./badge";
@@ -114,14 +117,25 @@ function Top_Bar() {
     return Buffer.from(str).toString("base64");
   };
 
+  const [activeLink, setActiveLink] = useState<string>("Generate Courses");
+
+  const handleLinkClick = (link: string) => {
+    setActiveLink(link);
+  };
+
   return (
     <header
-      className={`flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6`}
+      className={`flex z-50 h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6`}
     >
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-            <Menu className="h-5 w-5" />
+            <Menu
+              className="h-5 w-5"
+              onClick={() => {
+                console.log("hey bro ");
+              }}
+            />
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
@@ -131,39 +145,66 @@ function Top_Bar() {
               href="#"
               className="flex items-center gap-2 text-lg font-semibold"
             >
-              <Package2 className="h-6 w-6" />
-              <span className="sr-only">Ai-Learn Studio</span>
+              <Link href="/" className="flex items-center gap-2 font-semibold">
+                <Image
+                  src="/dummy.png"
+                  width={40}
+                  alt="logo"
+                  height={40}
+                  className="rounded-xl"
+                />
+                <span className="text-[#8678F9]">Ai-Learn Studio</span>
+              </Link>
             </Link>
             <Link
-              href="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              onClick={() => handleLinkClick("Generate Courses")}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 cursor-pointer transition-all ${
+                activeLink === "Generate Courses"
+                  ? "text-primary"
+                  : "text-muted-foreground"
+              } hover:text-[#8678F9] hover:bg-white`}
+              href={"/dashboard"}
             >
-              <Home className="h-5 w-5" />
-              Genrate Courses
+              <Brain className="h-4 w-4" />
+              Generate Courses
             </Link>
+
             <Link
-              href="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+              onClick={() => handleLinkClick("Courses")}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 cursor-pointer transition-all ${
+                activeLink === "Courses"
+                  ? "text-primary"
+                  : "text-muted-foreground"
+              } hover:text-[#8678F9] hover:bg-white`}
+              href={"/dashboard/courses"}
             >
-              <ShoppingCart className="h-5 w-5" />
+              {/* <Link href={"/dashboard/courses"}> */}
+              <Boxes className="h-4 w-4" />
               Courses
-              <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                6
-              </Badge>
             </Link>
             <Link
-              href="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              onClick={() => handleLinkClick("Credit")}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 cursor-pointer transition-all ${
+                activeLink === "Credit"
+                  ? "text-primary"
+                  : "text-muted-foreground"
+              } hover:text-[#8678F9] hover:bg-white`}
+              href={"/dashboard/credit"}
             >
-              <Package className="h-5 w-5" />
+              <DollarSign className="h-4 w-4" />
               Credit
             </Link>
             <Link
-              href="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              onClick={() => handleLinkClick("Archive")}
+              className={`flex items-center gap-3 rounded-lg px-3 py-2 cursor-pointer transition-all ${
+                activeLink === "Archive"
+                  ? "text-primary"
+                  : "text-muted-foreground"
+              } hover:text-[#8678F9] hover:bg-white`}
+              href={"/dashboard/archive"}
             >
-              <Users className="h-5 w-5" />
-              Setting
+              <Archive className="h-4 w-4" />
+              Archive
             </Link>
           </nav>
           <div className="mt-auto">

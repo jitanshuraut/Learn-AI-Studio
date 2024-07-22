@@ -49,6 +49,8 @@ export async function POST(req: NextRequest) {
 
 
         if (existingTopic) {
+            await redis.set(String(moduleData.id), String(existingTopic.content));
+            await redis.expire(String(moduleData.id), 600);
             return NextResponse.json({ data: existingTopic.content });
         }
 

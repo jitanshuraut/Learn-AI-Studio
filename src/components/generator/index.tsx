@@ -137,7 +137,7 @@ export function Placeholders() {
 
   const renderContent = () => {
     if (Query.trim() === "") {
-      return null; 
+      return null;
     }
 
     if (generating) {
@@ -188,7 +188,7 @@ export function Placeholders() {
     if (Object.keys(course).length > 0) {
       return (
         <div className="border-2 w-[90%] mx-auto p-4 rounded-md">
-          <div className="flex justify-between my-2">
+          <div className="flex justify-between md:flex-row flex-col my-2">
             <h1 className="text-2xl font-extrabold text-[#8678F9] mt-3">
               {toTitleCase(course.name)}
             </h1>

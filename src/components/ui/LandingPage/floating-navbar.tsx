@@ -100,7 +100,7 @@ const FloatingNav = ({
     //   </div>
     // </AnimatePresence>
 
-    <nav className="border fixed z-50 border-black/[0.5] bg-gradient-to-tr from-purple-400/20 to-transparent dark:border-white/[0.2] flex flex-col items-center justify-center   p-4  h-[55px] backdrop-blur-sm  w-full">
+    <nav className="border   fixed z-50 border-black/[0.5] bg-gradient-to-tr from-purple-400/20 to-transparent dark:border-white/[0.2] flex flex-col items-center justify-center   p-4  h-[55px] backdrop-blur-sm  w-full">
       {/* <AnimatePresence mode="wait"> */}
       {/* <div className=" "> */}
       {/* <motion.div
@@ -139,17 +139,15 @@ const FloatingNav = ({
         ))}
         <ModeToggle />
 
-    
-          <button
-            className="relative py-2 px-4 text-sm font-medium text-black rounded-full border dark:text-white border-neutral-200 dark:border-white/[0.2]"
-            onClick={() => {
-              router.push("/register");
-            }}
-          >
-            <span>Login</span>
-            <span className="absolute inset-x-0 -bottom-px mx-auto w-1/2 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-          </button>
-      
+        <button
+          className="relative py-2 px-4 text-sm font-medium text-black rounded-full border dark:text-white border-neutral-200 dark:border-white/[0.2]"
+          onClick={() => {
+            router.push("/register");
+          }}
+        >
+          <span>Login</span>
+          <span className="absolute inset-x-0 -bottom-px mx-auto w-1/2 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+        </button>
       </div>
       {/* </motion.div> */}
       {/* </motion.div> */}
