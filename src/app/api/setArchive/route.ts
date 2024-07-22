@@ -3,11 +3,6 @@ import { db } from "@/lib/db"
 
 export async function POST(req: NextRequest) {
     const data = await req.json()
-    console.log("-------------------------")
-    console.log(data)
-    console.log("-------------------------")
-
-
     try {
         const updatedCourse = await db.course.update({
             where: {
@@ -17,8 +12,6 @@ export async function POST(req: NextRequest) {
                 Archive: parseInt(data.archive, 10)
             },
         });
-        console.log(updatedCourse);
-
         return NextResponse.json({ message: 'success' });
     } catch (err) {
         console.log(err);

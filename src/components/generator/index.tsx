@@ -83,7 +83,6 @@ export function Placeholders() {
   const { Credit, setCredit } = useCredit();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.value);
     if (Query.length > e.target.value.length) {
       setcourse({});
       setErrorMessage(null);
@@ -92,7 +91,6 @@ export function Placeholders() {
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log("submitted");
     setGenerating(true);
 
     if (Credit < 0) {
@@ -120,19 +118,15 @@ export function Placeholders() {
         }
 
         const data = await response.json();
-        console.log(data);
         if (data.message != null) {
           setErrorMessage(data.message);
           setcourse({});
         } else {
           setErrorMessage(null);
-          // console.log("data-----------");
-          // console.log(data); // Clear any previous error messages
           setcourse(data);
         }
         setGenerating(false);
       } catch (error) {
-        // console.log("Error fetching data:", error);
         setErrorMessage("Failed to fetch courses. Please try again.");
         setcourse({});
       }
@@ -143,7 +137,7 @@ export function Placeholders() {
 
   const renderContent = () => {
     if (Query.trim() === "") {
-      return null; // Return nothing if Query is empty
+      return null; 
     }
 
     if (generating) {

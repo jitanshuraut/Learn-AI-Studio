@@ -62,7 +62,7 @@ function Top_Bar() {
     }
   };
 
-  const debouncedSearchTerm = useDebounce(Query, 100);
+  const debouncedSearchTerm = useDebounce(Query, 500);
 
   useEffect(() => {
     if (debouncedSearchTerm) {

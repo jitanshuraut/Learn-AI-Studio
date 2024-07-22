@@ -36,9 +36,6 @@ export async function POST(req: NextRequest) {
         }
 
         const data_cache: any = await redis.get(String(moduleData.id));
-        console.log("from redis")
-        console.log(data_cache)
-
         if (data_cache) {
             return NextResponse.json({ data: data_cache });
         }
@@ -55,18 +52,11 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ data: existingTopic.content });
         }
 
-        // redis.get(moduleData.id).then((result) => {
-        //     console.log(result); // Prints "value"
-        //     return NextResponse.json({ data: result });
-
-        // });
 
         const prompt = GENRATE_MODULE(moduleData.title, course.courseName)
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text: any = response.text();
-        // console.log(text);
-
         const newTopic = await db.topic.create({
             data: {
                 moduleId: moduleData.id,
@@ -106,7 +96,8 @@ export async function POST(req: NextRequest) {
         }
 
         const redis_resp = await redis.set(String(moduleData.id), String(text));
-        console.log(redis_resp);
+        const redis_resp_ttl = await redis.expire(String(moduleData.id), 600);
+        console.log(redis_resp_ttl);
         return NextResponse.json({ data: text });
 
     } catch (err) {

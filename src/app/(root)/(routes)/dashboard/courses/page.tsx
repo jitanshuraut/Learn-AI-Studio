@@ -17,7 +17,6 @@ function useUserCourses(userId: string) {
           throw new Error("Failed to fetch courses");
         }
         const data = await response.json();
-        console.log(data);
         setData(data);
       } catch (error) {
         setError(error as Error);
@@ -37,8 +36,6 @@ function useUserCourses(userId: string) {
 
 const CoursesList = ({ userId }: { userId: string }) => {
   const courses = useUserCourses(userId);
-  console.log(courses);
-  console.log(Math.ceil(Math.random() * 100) % 3);
   if (courses) {
     return (
       <>
@@ -67,7 +64,6 @@ const CoursesList = ({ userId }: { userId: string }) => {
 function Page() {
   const session = useCurrentUser();
   const userId: any = session?.id;
-  console.log(userId);
   const { isBlurred, setIsBlurred } = useBlur();
 
   if (!userId) {

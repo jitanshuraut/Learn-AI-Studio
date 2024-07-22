@@ -51,9 +51,6 @@ const Home: React.FC = () => {
 
   const [userid, courseid] = extractAndDecodeSegments(search);
   let jsonString: string | null = localStorage.getItem(courseid);
-  console.log("----------------------------------------3");
-  console.log(jsonString);
-
   const [selectedDay, setSelectedDay] = useState<number>(1);
   const [selectModule, setSelectModule] = useState<number>(1);
   const [modulesData, setModulesData] = useState<ModuleData_Fetch[]>([]);
@@ -146,8 +143,6 @@ const Home: React.FC = () => {
           };
           localStorage.setItem(data.id, JSON.stringify(data_localstorage));
           jsonString = data.structure;
-          console.log("----------------------------------------");
-          console.log(jsonString);
           window.location.reload()
         };
 

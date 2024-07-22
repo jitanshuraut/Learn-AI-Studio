@@ -26,8 +26,6 @@ export async function POST(req: NextRequest) {
 
     try {
         const data_Query = await queryPineconeVectorStore(client, "course", String(data.Query));
-        console.log(data_Query)
-
         const extractedData: { id: string; name: string }[] = [];
 
         data_Query.matches.forEach((match: Match) => {
@@ -47,9 +45,6 @@ export async function POST(req: NextRequest) {
               }
             }
           });
-
-        console.log(extractedData);
-
         return NextResponse.json({ data: extractedData });
     } catch (err) {
         console.log(err);
