@@ -26,13 +26,13 @@ export default function Home() {
   localStorage.clear();
 
   return (
-    <div>
+    <div className="">
       <div className="absolute inset-0 -z-10 h-[97vh] rounded-3xl mx-auto w-[97%] items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
       <header>
         <FloatingNav navItems={navItems} />
       </header>
       <div className="w-full flex flex-col justify-center items-center gap-6 font-subalt ">
-        <div className="h-[100vh] flex justify-center items-center">
+        <div className="h-[100vh] flex justify-center it">
           <HeroSection />
         </div>
         {/* <div class="relative h-full w-full bg-white"><div class="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div></div> */}
@@ -51,11 +51,9 @@ export default function Home() {
           <HowItWorks />
         </Section>
 
-      
-          <Section>
-            <Testimonials />
-          </Section>
- 
+        <Section>
+          <Testimonials />
+        </Section>
 
         <Section>
           <FAQ />

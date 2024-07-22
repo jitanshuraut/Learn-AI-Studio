@@ -35,7 +35,7 @@ export default function HeroSection() {
         <div className="max-w-4xl absolute">
           <Spotlight fill="#9284D4" />
         </div>
-        <div className="mx-auto max-w-5xl text-center ">
+        <div className="mx-auto max-w-5xl text-center overflow-hidden ">
           <motion.div
             initial="hidden"
             ref={ref}
@@ -50,19 +50,18 @@ export default function HeroSection() {
               },
             }}
           >
-            <div className="absolute -top-4 -z-10 flex w-full justify-center">
+            {/* <div className="absolute -top-4 -z-10 flex w-full justify-center">
               <div className="h-[310px] w-[310px] max-w-full animate-pulse-slow rounded-full bg-[#8678F9] opacity-20 blur-[100px]" />
             </div>
             <div className="absolute -top-4 -z-10 flex w-full justify-center">
               <div className="h-[310px] w-[310px] max-w-full animate-pulse-slow rounded-full bg-[#8678F9] opacity-20 blur-[100px]" />
-            </div>
+            </div> */}
 
             <motion.h1
               variants={FADE_DOWN_ANIMATION_VARIANTS}
               className="text-7xl font-bold font-headingAlt bg-gradient-to-tr from-purple-300/100 to-white/50 bg-clip-text text-transparent tracking-normal sm:text-7xl  md:text-9xl"
             >
               <Feeder feed="Features" />
-              <div className="mb-4"></div>
               AI-Powered Learning
             </motion.h1>
             <motion.p
