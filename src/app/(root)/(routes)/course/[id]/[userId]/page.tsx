@@ -50,7 +50,9 @@ const Home: React.FC = () => {
   const search = pathname;
 
   const [userid, courseid] = extractAndDecodeSegments(search);
-  const jsonString: string | null = localStorage.getItem(courseid);
+  let jsonString: string | null = localStorage.getItem(courseid);
+  console.log("----------------------------------------3");
+  console.log(jsonString);
 
   const [selectedDay, setSelectedDay] = useState<number>(1);
   const [selectModule, setSelectModule] = useState<number>(1);
@@ -123,6 +125,34 @@ const Home: React.FC = () => {
 
       fetchCourseData();
       console.log(selectedDay);
+    } else {
+      try {
+        const getCourse = async () => {
+          const response = await fetch(`/api/getSearchCourse`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              courseId: courseid,
+            }),
+          });
+          // console.log(response);
+          const data = await response.json();
+          console.log(data);
+          const data_localstorage = {
+            course: courseid,
+            coursestructure: data.structure,
+          };
+          localStorage.setItem(data.id, JSON.stringify(data_localstorage));
+          jsonString = data.structure;
+          console.log("----------------------------------------");
+          console.log(jsonString);
+          window.location.reload()
+        };
+
+        getCourse();
+      } catch (error) {}
     }
   }, [selectedDay, selectModule, jsonString]);
 

@@ -32,7 +32,7 @@ interface DataItem {
 }
 
 function Top_Bar() {
-  const session = useCurrentUser();
+  const session: any = useCurrentUser();
   const { Credit, setCredit } = useCredit();
   const [Query, setQuery] = useState<string>("");
   const [dataQuery, setdataQuery] = useState<DataItem[]>([]);
@@ -108,6 +108,10 @@ function Top_Bar() {
     if (!Query) {
       setIsBlurred(true);
     }
+  };
+
+  const encodeBase64 = (str: string) => {
+    return Buffer.from(str).toString("base64");
   };
 
   return (
@@ -200,14 +204,16 @@ function Top_Bar() {
         </form>
         {dataQuery.length > 0 && Query.length > 0 ? (
           <div className="absolute top-14 z-50 w-96 p-2 bg-white rounded-md">
-            <ul>
+            <ul className="flex flex-col">
               {dataQuery.map((item) => (
-                <li
+                <Link
                   key={item.id}
                   className="p-2 my-1 bg-primary-foreground border-2 cursor-pointer rounded-md"
+                  href={`/course/${encodeBase64(session.id)}/${encodeBase64(item.id)}`}
+                  target="_blank"
                 >
                   {item.name}
-                </li>
+                </Link>
               ))}
             </ul>
           </div>
