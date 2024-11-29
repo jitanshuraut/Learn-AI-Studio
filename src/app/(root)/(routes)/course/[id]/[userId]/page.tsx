@@ -19,6 +19,7 @@ const fetchData = async ({
   userId: string;
 }) => {
   try {
+    const startTime = performance.now();
     const response = await fetch(`/api/getModule`, {
       method: "POST",
       headers: {
@@ -31,7 +32,9 @@ const fetchData = async ({
         moduleNumber,
       }),
     });
-
+    const endTime = performance.now(); // End time
+    const duration = endTime - startTime; // Calculate duration
+    console.log(`API call took ${duration.toFixed(2)}ms`);
     if (!response.ok) {
       throw new Error("Failed to fetch courses");
     }
@@ -143,7 +146,7 @@ const Home: React.FC = () => {
           };
           localStorage.setItem(data.id, JSON.stringify(data_localstorage));
           jsonString = data.structure;
-          window.location.reload()
+          window.location.reload();
         };
 
         getCourse();

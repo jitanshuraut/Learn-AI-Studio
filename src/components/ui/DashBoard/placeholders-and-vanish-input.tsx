@@ -3,16 +3,20 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Paperclip } from 'lucide-react';
 
 export function PlaceholdersAndVanishInput({
   isDisabled,
   placeholders,
   onChange,
+  handleFileChange,
   onSubmit,
+
 }: {
   isDisabled: boolean;
   placeholders: string[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
@@ -31,6 +35,7 @@ export function PlaceholdersAndVanishInput({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const newDataRef = useRef<any[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [animating, setAnimating] = useState(false);
 
@@ -142,7 +147,7 @@ export function PlaceholdersAndVanishInput({
   };
 
   const vanishAndSubmit = () => {
-  
+
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -153,18 +158,40 @@ export function PlaceholdersAndVanishInput({
     <div className="w-full  p-3">
       <form
         className={cn(
-          "w-full relative max-w-xl mx-auto bg-white dark:bg-zinc-800 h-12 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
+          "w-full relative max-w-xl mx-auto bg-white dark:bg-zinc-800 h-14 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
           value && "bg-gray-50"
         )}
         onSubmit={handleSubmit}
       >
+
         <canvas
           className={cn(
-            "absolute pointer-events-none  text-base transform scale-50 top-[20%] left-2 sm:left-8 origin-top-left filter invert dark:invert-0 pr-20",
+            "absolute pointer-events-none  text-base transform scale-90 top-[20%] left-2 sm:left-8 origin-top-left filter invert dark:invert-0 pr-20",
             !animating ? "opacity-0" : "opacity-100"
           )}
           ref={canvasRef}
         />
+
+
+        <button
+          disabled={!value}
+          type="button"
+          className="absolute cursor-pointer left-1 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full disabled:bg-gray-100 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Paperclip className="cursor-pointer" />
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept="image/*"
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            onChange={(e) => {
+              handleFileChange(e);
+              setValue("");
+            }}
+          />
+        </button>
+
         <input
           onChange={(e) => {
             if (!animating) {
@@ -178,7 +205,7 @@ export function PlaceholdersAndVanishInput({
           value={value}
           type="text"
           className={cn(
-            "w-full relative text-sm sm:text-base z-50 border-none dark:text-white bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20",
+            "w-full relative text-sm sm:text-base z-40 border-none dark:text-white bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20",
             animating && "text-transparent dark:text-transparent"
           )}
         />
@@ -220,6 +247,11 @@ export function PlaceholdersAndVanishInput({
           </motion.svg>
         </button>
 
+
+
+
+
+
         <div className="absolute inset-0 flex items-center rounded-full pointer-events-none">
           <AnimatePresence mode="wait">
             {!value && (
@@ -248,6 +280,8 @@ export function PlaceholdersAndVanishInput({
             )}
           </AnimatePresence>
         </div>
+
+
       </form>
     </div>
   );

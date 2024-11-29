@@ -64,6 +64,8 @@ model Course {
   id            String     @id @default(cuid())
   userId        String
   courseName    String
+  domain        String
+  subtopics     String[]
   Introduction  String
   numberOfDays  Int
   ModuleCreated Int        @default(0)

@@ -8,6 +8,10 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { useCredit } from "../credit-provider";
 import { CourseCardProps } from "@/types";
 import { useBlur } from "@/components/ui/blur-provider";
+import { createWorker } from 'tesseract.js';
+import { Paperclip } from 'lucide-react';
+import { CircleX } from 'lucide-react';
+
 
 function toTitleCase(str: string) {
   return str
@@ -71,16 +75,36 @@ const encodeBase64 = (str: string) => {
   return Buffer.from(str).toString("base64");
 };
 
+const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
 export function Placeholders() {
   const { isBlurred, setIsBlurred } = useBlur();
   const [Query, setQuery] = useState<string>("deep learning");
   const [generating, setGenerating] = useState<boolean>(false);
   const [isDisable, setisDisable] = useState<boolean>(false);
-  const [course, setcourse] = useState<any>({});
+  const [course, setcourse] = useState<{ [key: string]: any }>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const [file, setFile] = useState<File | null>(null);
+  const [ocrResult, setOcrResult] = useState<string>('');
+  const [ocrStatus, setOcrStatus] = useState<string>('');
   const session: any = useCurrentUser();
   const { Credit, setCredit } = useCredit();
+
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+      console.log(e.target.files[0].name);
+    }
+  };
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (Query.length > e.target.value.length) {
@@ -89,7 +113,35 @@ export function Placeholders() {
     }
     setQuery(e.target.value);
   };
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+
+  const readImageText = async (): Promise<string> => {
+    if (!file) return '';
+
+    setOcrStatus('Processing...');
+    const worker = await createWorker('eng', 1, {
+      logger: m => console.log(m), // Add logger here
+    });
+
+    try {
+      const {
+        data: { text },
+      } = await worker.recognize(file);
+
+      setOcrResult(text);
+      setOcrStatus('Completed');
+      return text;
+    } catch (error) {
+      console.error(error);
+      setOcrStatus('Error occurred during processing.');
+      return '';
+    } finally {
+      await worker.terminate();
+    }
+  };
+
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setGenerating(true);
 
@@ -100,6 +152,14 @@ export function Placeholders() {
 
     setCredit(Credit - 1);
 
+    let updatedQuery = Query;
+    if (file) {
+      const ocrText = await readImageText();
+      const serializedOcrText = ocrText.replace(/\s+/g, ' ').trim();
+      updatedQuery += " Based on " + serializedOcrText;
+      setQuery(updatedQuery);
+    }
+
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/genrateOutline`, {
@@ -108,7 +168,7 @@ export function Placeholders() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            course: Query,
+            course: updatedQuery,
             userId: session.id,
           }),
         });
@@ -123,6 +183,8 @@ export function Placeholders() {
           setcourse({});
         } else {
           setErrorMessage(null);
+          console.log(typeof data);
+          console.log(data);
           setcourse(data);
         }
         setGenerating(false);
@@ -134,6 +196,8 @@ export function Placeholders() {
 
     fetchData();
   };
+
+
 
   const renderContent = () => {
     if (Query.trim() === "") {
@@ -186,11 +250,12 @@ export function Placeholders() {
     }
 
     if (Object.keys(course).length > 0) {
+      console.log(course);
       return (
         <div className="border-2 w-[90%] mx-auto p-4 rounded-md">
           <div className="flex justify-between md:flex-row flex-col my-2">
             <h1 className="text-2xl font-extrabold text-[#8678F9] mt-3">
-              {toTitleCase(course.name)}
+              {course.name ? toTitleCase(course.name) : 'Course Name Not Available'}
             </h1>
             <Link
               className="mt-5 z-10 px-2 py-1 flex items-center justify-between bg-white text-black rounded-md cursor-pointer"
@@ -227,8 +292,8 @@ export function Placeholders() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mx-auto p-1">
             {Object.keys(course).map((day) =>
               day.includes("Day") &&
-              Array.isArray(course[day]) &&
-              course[day].length > 0 ? (
+                Array.isArray(course[day]) &&
+                course[day].length > 0 ? (
                 <CourseCard key={day} day={day} modules={course[day]} />
               ) : null
             )}
@@ -242,18 +307,34 @@ export function Placeholders() {
 
   return (
     <div
-      className={`h-[40rem] overflow-scroll flex flex-col justify-start  items-center px-4 hide-scrollbar ${isBlurred == true ? "blur-sm" : ""}`}
+      className={`h-[40rem] overflow-scroll flex flex-col justify-start items-center   px-4 hide-scrollbar ${isBlurred == true ? "blur-sm" : ""}`}
     >
       <h2 className="mb-10 sm:mb-20 text-xl  text-center sm:text-5xl dark:text-white text-black">
         Your <span className="text-[#8678F9] font-bold"> Questions</span>, Our{" "}
         <span className="text-[#8678F9] font-bold">Courses</span>
       </h2>
+
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={handleChange}
+        handleFileChange={handleFileChange}
         onSubmit={onSubmit}
         isDisabled={isDisable}
       />
+
+      {
+        file ?
+          <div className="flex justify-start w-2/5 border p-3 ">
+            <div className="flex justify-evenly items-center bg-[#8678F9] p-3 rounded-md">
+              <Paperclip size={15} className="mr-2" />
+              {file.name}
+              <div className="ml-2">
+                <CircleX className="cursor-pointer" onClick={() => { setFile(null) }} />
+              </div>
+            </div>
+          </div> : ""
+      }
+
 
       <div className="min-h-28 mt-5 w-full ">{renderContent()}</div>
     </div>
