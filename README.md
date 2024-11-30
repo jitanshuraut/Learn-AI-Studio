@@ -1,8 +1,8 @@
 # Version 2 in Development
 ## Features will added:
-- Personalized Structure: Upload images of course outlines, like college course syllabus, for a customized experience.
-- RouteLLM: Uses a multimodal approach, applying different models for specific tasks—for example, OpenAI for math topic .
-- Advancements will be made to improve the database. 
+- [x] Personalized Structure: Upload images of course outlines, like college course syllabus, for a customized experience.
+- [x] RouteLLM: Uses a multimodal approach, applying different models for specific tasks—for example, OpenAI for math topic .
+- [ ] Advancements will be made to improve the database. 
 #  **Learn AI Studio** 
 ![image (1)](https://github.com/user-attachments/assets/29779487-ebfc-4c41-87f7-3e7a96d8a1a6)
 
