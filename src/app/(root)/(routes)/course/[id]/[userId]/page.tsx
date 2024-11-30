@@ -10,6 +10,8 @@ import Image from "next/image";
 import Draggable from "react-draggable";
 import { X, ChevronRight } from 'lucide-react';
 import { set } from "zod";
+import { render } from 'react-dom'
+import Markdown from 'markdown-to-jsx'
 
 
 const fetchData = async ({
@@ -351,7 +353,9 @@ const Home: React.FC = () => {
                 </div>
                 <div className="mt-4 p-2 rounded-md overflow-y-auto border h-60 custom-scrollbar">
                   <p className="text-black">
-                    {answer === "" && queryFlag ? <ContentLoader /> : answer}
+                    {answer === "" && queryFlag ? <ContentLoader /> : (<Markdown options={{ wrapper: 'article' }}>
+                      {answer}
+                    </Markdown>)}
                   </p>
                 </div>
               </div>
