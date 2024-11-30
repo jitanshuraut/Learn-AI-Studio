@@ -6,6 +6,11 @@ import ContentLoader from "@/components/ui/content-skeleton";
 import Link from "next/link";
 import { ModuleData_Fetch } from "@/types";
 import { extractAndDecodeSegments, extractDays } from "@/lib/utils";
+import Image from "next/image";
+import Draggable from "react-draggable";
+import { X, ChevronRight } from 'lucide-react';
+import { set } from "zod";
+
 
 const fetchData = async ({
   moduleNumber,
@@ -58,12 +63,55 @@ const Home: React.FC = () => {
   const [selectModule, setSelectModule] = useState<number>(1);
   const [modulesData, setModulesData] = useState<ModuleData_Fetch[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [query, setQuery] = useState<string>("");
+  const [current_content, set_current_content] = useState<string>("");
+  const [answer, setAnswer] = useState<string>("");
+  const [queryFlag, setQueryFlag] = useState<boolean>(false);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setQuery("");
+    setAnswer("");
+
+  };
+
+  const handleSubmit = async () => {
+    console.log("Query submitted:", query);
+    setAnswer("");
+    setQueryFlag(true);
+    const response = await fetch(`/api/query`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: query,
+        content: current_content,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    setAnswer(data.response);
+    setQueryFlag(false);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit();
+    }
+  };
 
   useEffect(() => {
     if (jsonString != null) {
       const parsedJson = JSON.parse(jsonString);
       const { course, coursestructure } = parsedJson;
       const coursestructure_new = JSON.parse(coursestructure);
+      console.log("form coursestructure_new");
       console.log(coursestructure_new);
       const daysWithModules = extractDays(coursestructure_new);
 
@@ -115,6 +163,10 @@ const Home: React.FC = () => {
             }
           }
 
+          // if (selectedDayData) {
+          //   set_current_content(selectedDayData.modules[selectModule - 1]);
+          // }
+
           setLoading(false);
           console.log(modulesData);
         } catch (error) {
@@ -150,7 +202,7 @@ const Home: React.FC = () => {
         };
 
         getCourse();
-      } catch (error) {}
+      } catch (error) { }
     }
   }, [selectedDay, selectModule, jsonString]);
 
@@ -160,6 +212,12 @@ const Home: React.FC = () => {
   const selectedDayModules = modulesData.filter(
     (data) => data.day === selectedDay && data.module === selectModule
   );
+
+  useEffect(() => {
+    if (selectedDayModules.length > 0) {
+      set_current_content(selectedDayModules[0].content["data"]);
+    }
+  }, [selectedDayModules]);
 
   const nextDay = () => {
     setSelectedDay((prevDay) => {
@@ -184,11 +242,10 @@ const Home: React.FC = () => {
           {daysWithModules.map((dayData, index) => (
             <li
               key={dayData.day}
-              className={`p-2 flex mb-1 rounded-md cursor-pointer ${
-                dayData.day === `Day ${selectedDay}`
-                  ? "bg-[#8678F9] text-white justify-start"
-                  : "bg-primary-foreground"
-              }`}
+              className={`p-2 flex mb-1 rounded-md cursor-pointer ${dayData.day === `Day ${selectedDay}`
+                ? "bg-[#8678F9] text-white justify-start"
+                : "bg-primary-foreground"
+                }`}
               onClick={() => setSelectedDay(index + 1)}
             >
               {dayData.day}{" "}
@@ -214,9 +271,11 @@ const Home: React.FC = () => {
 
         <div className="flex justify-around md:flex-row flex-col-reverse ">
           <div className="p-4 h-[87vh] overflow-y-scroll hide-scrollbar md:w-3/4 w-full">
+
             {selectedDayModules.length === 0 ? (
               <ContentLoader />
             ) : (
+
               <div>
                 {selectedDayModules.map((moduleData, index) => (
                   <div
@@ -230,7 +289,18 @@ const Home: React.FC = () => {
               </div>
             )}
           </div>
+
           <div className="flex flex-col items-start md:w-1/5 w-full">
+            <div className="flex justify-evenly bg-[#8678F9] p-2 m-1 border rounded-md items-center  w-full">
+              <button onClick={handleOpenModal}>Chat with Document</button>
+              <Image
+                className="rounded-full bg-white p-1"
+                width="25"
+                height="25"
+                alt=""
+                src="/chat_logo.svg"
+              />
+            </div>
             <h1 className="my-2 font-bold">Modules</h1>
             <div className="bg-primary-foreground flex flex-col z-50 p-4 rounded-md w-full">
               {daysWithModules
@@ -238,9 +308,8 @@ const Home: React.FC = () => {
                 ?.modules.map((module, index) => (
                   <p
                     key={index}
-                    className={`mb-2 text-white text-sm p-3 ${
-                      index + 1 === selectModule ? "bg-[#8678F9]" : "border-2"
-                    } font-bold rounded-md cursor-pointer`}
+                    className={`mb-2 text-white text-sm p-3 ${index + 1 === selectModule ? "bg-[#8678F9]" : "border-2"
+                      } font-bold rounded-md cursor-pointer`}
                     onClick={() => {
                       setSelectModule(index + 1);
                     }}
@@ -259,6 +328,52 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <Draggable>
+          <div className="fixed z-50 top-1/2 left-1/2  flex items-center justify-center">
+            <div className="bg-white p-4 rounded-md  shadow-lg h-96 w-96">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-[#8678F9]">Ask Your Query</h2>
+                <button onClick={handleCloseModal} className="text-red-500"> <X /></button>
+              </div>
+              <div className="h-full w-full">
+                <div className="flex justify-between items-center">
+                  <input
+                    type="text"
+                    className="w-[90%] border mx-auto p-2 rounded-md bg-white text-black"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
+                  <button onClick={handleSubmit}>
+                    <ChevronRight className="text-[#8678F9]" />
+                  </button>
+                </div>
+                <div className="mt-4 p-2 rounded-md overflow-y-auto border h-60 custom-scrollbar">
+                  <p className="text-black">
+                    {answer === "" && queryFlag ? <ContentLoader /> : answer}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Draggable>
+      )}
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+      `}</style>
     </div>
   );
 };

@@ -17,7 +17,7 @@ function transformColorToH1(htmlString: string): string {
         (match, h1Tag, offset, original) => {
             const precedingContent = original.slice(0, offset);
             const hasHr = /<hr\s*[^>]*>\s*$/i.test(precedingContent);
-            const styledHr = `<hr style="border: 2px solid #8678F9; border-radius: 5px;">`;
+            const styledHr = `<hr style="border: 2px solid #8678F9; border-radius: 5px; margin-bottom: 10px;margin-top: 10px;">`;
             return hasHr ? h1Tag : `${styledHr}\n${h1Tag}`;
         }
     );

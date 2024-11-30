@@ -49,7 +49,7 @@ Develop a comprehensive course on the topic {text} focusing on subtopics {subtop
 
 def Genrate_Module(module, course):
     return f"""
-Generate comprehensive learning content for the module {module} in the {course} course. Focus exclusively on the topics outlined for {module} as defined in the course structure. Ensure that your response adheres strictly to the formatting and style guidelines below.
+Please generate a comprehensive learning resource of approximately 30,000 words for the {module} in the {course} course. The content should strictly focus on the topics outlined for {module} as per the course structure. Organize the material in a clear, book-like hierarchy with chapters, sections, and subsections. Ensure the resource is well-structured, detailed, and adheres to the following length and formatting guidelines.
 
 Style Guidelines
 1 General Structure
@@ -149,7 +149,6 @@ You excel at:
 Writing efficient, clean, and well-documented code.
 Explaining programming concepts clearly and concisely with relevant examples.
 Debugging issues, offering optimization tips, and exploring best practices.
-Supporting multiple programming languages like Python, C++, JavaScript, and others.
 Always approach answers professionally, focusing on clarity and real-world applicability, while remaining patient and supportive in your explanations.
 """
 
