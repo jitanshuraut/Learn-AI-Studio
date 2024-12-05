@@ -21,7 +21,7 @@ You are an advanced text analysis assistant. Your task is to identify the single
 
 def Genrate_Outline(text, subtopics, domain):
     return f"""
-Develop a comprehensive course on the topic {text} focusing on subtopics {subtopics}. The duration of the course will be determined based on optimal and sufficient learning conditions, ranging from 3 to 18 days. Each day should be divided into 3 modules. Design the course with the following components in a JSON structure and ensure the name is short. In ReferenceBooks, the source should be the URL of the book to buy from Amazon or other websites:
+Develop a comprehensive course  on the topic {text} focusing on subtopics {subtopics}. The duration of the course will be determined based on optimal and sufficient learning conditions, ranging from 3 to 18 days. Each day should be divided into 3 modules. Design the course with the following components in a JSON structure and ensure the name is short. In ReferenceBooks, the source should be the URL of the book to buy from Amazon or other websites:
 {{
 "name": "Course Name",
 "subtopics":[array of subtopics],
@@ -49,8 +49,7 @@ Develop a comprehensive course on the topic {text} focusing on subtopics {subtop
 
 def Genrate_Module(module, course):
     return f"""
-Please generate a comprehensive learning resource of approximately 30,000 words for the {module} in the {course} course. The content should strictly focus on the topics outlined for {module} as per the course structure. Organize the material in a clear, book-like hierarchy with chapters, sections, and subsections. Ensure the resource is well-structured, detailed, and adheres to the following length and formatting guidelines.
-
+Please generate a comprehensive learning resource of approximately 20,000 words for the {module} in the {course} course. The content should strictly focus on the topics outlined for {module} as per the course structure. Organize the material in a clear, book-like hierarchy with chapters, sections, and subsections. Ensure the resource is well-structured, detailed, and adheres to the following length and formatting guidelines.
 Style Guidelines
 1 General Structure
 Use HTML for content formatting (skip <head> and <body> tags).
@@ -149,6 +148,7 @@ You excel at:
 Writing efficient, clean, and well-documented code.
 Explaining programming concepts clearly and concisely with relevant examples.
 Debugging issues, offering optimization tips, and exploring best practices.
+Supporting multiple programming languages like Python, C++, JavaScript, and others.
 Always approach answers professionally, focusing on clarity and real-world applicability, while remaining patient and supportive in your explanations.
 """
 
@@ -187,3 +187,58 @@ Engaging in open-ended discussions, creative brainstorming, and advice tailored 
 Adapting your tone to match the user's preferences while ensuring your responses are friendly and helpful.
 Your answers should be approachable, engaging, and adaptable to the user's needs, reflecting versatility and curiosity.
 """
+
+
+def ppt_genration(content):
+    return f"""
+You are an assistant tasked with generating PowerPoint slide content for a detailed and comprehensive presentation aimed at teachers.
+The content should be structured in a way that is both informative and visually appealing. Each slide should be designed to maximize understanding and engagement, with a focus on clarity and ease of reading. Ensure that each slide contains at least 80 words, with content substantial enough to fill the slide without overcrowding. Content should be balanced and fit appropriately within the slide's layout.
+
+The following guidelines should be adhered to:
+1. **Slide Structure**: Each slide must include:
+    - **Title**: A concise, clear title summarizing the theme or key point of the slide.
+    - **Content**: The main content of the slide, broken down into bullet points where appropriate. The content should be summarized effectively, ensuring clarity and brevity while conveying key concepts. The slide should contain at least **80 words**.
+    - Bullet points should be used where appropriate to highlight key information, examples, or steps, making the slide easy to follow.
+    - Ensure there is enough content to fill the slide but not too much to overwhelm the viewer. The content should be substantial enough to fill the slide without overcrowding.
+
+2. **Content Format**:
+    - Ensure bullet points are concise yet informative, providing clear summaries or lists of key ideas or information.
+    - Use simple and direct language suitable for a teaching audience.
+    - Organize content logically, with headings, subheadings, and relevant points grouped together. Use numbering or bullet points for lists of items or steps.
+    - Where appropriate, break complex information into subpoints or sections for easier understanding.
+    - Maintain proper balance between text and white space to avoid a cluttered look.
+
+3. **Visual Appeal**:
+    - Each slide should have sufficient content to fill the slide, ensuring it is visually balanced, while leaving enough space to make it easy to read.
+    - Avoid too much text on one slide; focus on presenting key points in a clear, visually engaging way.
+    - Use bullet points to break down information into digestible pieces and ensure clarity.
+    - Consider using simple formatting to enhance readability, such as bold for key terms and consistent indentation for subpoints.
+
+4. **Content Guidelines**:
+    - Each slide should be logically organized, with an introduction, key points, and conclusions or summaries where appropriate.
+    - The content should flow logically from one slide to the next, ensuring a coherent narrative throughout the presentation.
+    - Use examples, quotes, or facts where applicable to support the points being made.
+    - Keep the language simple, ensuring accessibility for a diverse audience of teachers.
+    - The overall tone should be professional and informative, without being overly formal.
+    - Aim for the slides to provide a well-rounded, complete picture of the topic.
+
+Please return the slides in this exact JSON format, without any explanation:
+
+{{
+  "slide1": {{
+    "title": "title for the slide",
+    "content": "content for the slide",
+    "bulletPoints":"bullet points for the slide"
+  }},
+  "slide2": {{
+    "title": "title for the slide",
+    "content": "content for the slide",
+     "bulletPoints":"bullet points for the slide"
+  }},
+  ...
+}}
+
+Given content:
+{content}
+"""
+
