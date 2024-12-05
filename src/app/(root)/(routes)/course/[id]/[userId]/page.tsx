@@ -8,11 +8,10 @@ import { ModuleData_Fetch } from "@/types";
 import { extractAndDecodeSegments, extractDays } from "@/lib/utils";
 import Image from "next/image";
 import Draggable from "react-draggable";
-import { X, ChevronRight } from 'lucide-react';
-import { set } from "zod";
-import { render } from 'react-dom'
+import { X, ChevronRight, FileText } from 'lucide-react';
 import Markdown from 'markdown-to-jsx'
-
+import { Circles, ThreeDots } from 'react-loader-spinner'
+import { PPT_generator } from "@/lib/utils";
 
 const fetchData = async ({
   moduleNumber,
@@ -70,6 +69,8 @@ const Home: React.FC = () => {
   const [current_content, set_current_content] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
   const [queryFlag, setQueryFlag] = useState<boolean>(false);
+  const [pptFlag, setPPTFlag] = useState<boolean>(false);
+  const [current_module, set_current_module] = useState<string>("");
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -99,6 +100,15 @@ const Home: React.FC = () => {
     console.log(data);
     setAnswer(data.response);
     setQueryFlag(false);
+  };
+
+
+  const handleSubmit_PPT = async () => {
+    setPPTFlag(true);
+    // const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    // await sleep(10000); // Sleep for 10 seconds
+    PPT_generator(current_content, current_module);
+    setPPTFlag(false);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -164,11 +174,6 @@ const Home: React.FC = () => {
               console.log(selectedDayData);
             }
           }
-
-          // if (selectedDayData) {
-          //   set_current_content(selectedDayData.modules[selectModule - 1]);
-          // }
-
           setLoading(false);
           console.log(modulesData);
         } catch (error) {
@@ -220,6 +225,16 @@ const Home: React.FC = () => {
       set_current_content(selectedDayModules[0].content["data"]);
     }
   }, [selectedDayModules]);
+
+  useEffect(() => {
+    const currentDayData = daysWithModules.find((day) => day.day === `Day ${selectedDay}`);
+    if (currentDayData) {
+      const currentModule = currentDayData.modules[selectModule - 1];
+      if (currentModule) {
+        set_current_module(currentModule.split(": ")[1]);
+      }
+    }
+  }, [selectedDay, selectModule, daysWithModules]);
 
   const nextDay = () => {
     setSelectedDay((prevDay) => {
@@ -293,15 +308,42 @@ const Home: React.FC = () => {
           </div>
 
           <div className="flex flex-col items-start md:w-1/5 w-full">
-            <div className="flex justify-evenly bg-[#8678F9] p-2 m-1 border rounded-md items-center  w-full">
-              <button onClick={handleOpenModal}>Chat with Document</button>
+            <div onClick={handleSubmit_PPT} className="flex justify-between bg-[#8678F9] p-2 m-1 border rounded-md items-center cursor-pointer  w-full">
+              {
+                pptFlag ? (<div className="mx-auto">
+                  <ThreeDots
+                    visible={true}
+                    height="27"
+                    width="27"
+                    color="white"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                </div>) : (
+                  <div className="flex justify-between w-full cursor-pointer">
+                    <button className="mx-2">Download PPT </button>
+                    <Image
+                      className="rounded-full bg-white p-1 mx-2"
+                      width="25"
+                      height="25"
+                      alt=""
+                      src="/powerpoint.svg"
+                    />
+                  </div>)
+              }
+            </div>
+            <div onClick={handleOpenModal} className="flex justify-between bg-[#8678F9] p-2 m-1 border rounded-md items-center cursor-pointer  w-full">
+              <button className="mx-2">Chat with Document</button>
               <Image
-                className="rounded-full bg-white p-1"
+                className="rounded-full bg-white p-1 mx-2"
                 width="25"
                 height="25"
                 alt=""
                 src="/chat_logo.svg"
               />
+
             </div>
             <h1 className="my-2 font-bold">Modules</h1>
             <div className="bg-primary-foreground flex flex-col z-50 p-4 rounded-md w-full">

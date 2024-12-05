@@ -11,6 +11,7 @@ import { useBlur } from "@/components/ui/blur-provider";
 import { createWorker } from 'tesseract.js';
 import { Paperclip } from 'lucide-react';
 import { CircleX } from 'lucide-react';
+import { placeholders_arr } from "@/lib/utils";
 
 
 function toTitleCase(str: string) {
@@ -36,53 +37,7 @@ const CourseCard = ({ day, modules }: CourseCardProps) => {
   );
 };
 
-const placeholders = [
-  "Courses on Introduction to Algorithms",
-  "Courses on Data Structures and Algorithms",
-  "Courses on Operating Systems",
-  "Courses on Database Management Systems",
-  "Courses on Computer Networks",
-  "Courses on Compiler Design",
-  "Courses on Software Engineering",
-  "Courses on Object-Oriented Programming with Java",
-  "Courses on Web Development with JavaScript",
-  "Courses on Software Systems using Python",
-  "Courses on Machine Learning",
-  "Courses on Deep Learning",
-  "Courses on Artificial Intelligence",
-  "Courses on Natural Language Processing",
-  "Courses on Computer Graphics",
-  "Courses on Human-Computer Interaction",
-  "Courses on Cloud Computing",
-  "Courses on Big Data Analytics",
-  "Courses on Internet of Things",
-  "Courses on Blockchain Technology",
-  "Courses on Cyber Security",
-  "Courses on Cryptography",
-  "Courses on Parallel and Distributed Computing",
-  "Courses on Mobile Application Development",
-  "Courses on Game Development",
-  "Courses on Augmented Reality and Virtual Reality",
-  "Courses on Quantum Computing",
-  "Courses on Robotics",
-];
-
-const encodeBase64 = (str: string) => {
-  if (typeof str !== "string") {
-    // throw new TypeError('The input must be a string.');
-    console.log("The input must be a string");
-  }
-  return Buffer.from(str).toString("base64");
-};
-
-const fileToBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-};
+const placeholders = placeholders_arr();
 
 export function Placeholders() {
   const { isBlurred, setIsBlurred } = useBlur();
