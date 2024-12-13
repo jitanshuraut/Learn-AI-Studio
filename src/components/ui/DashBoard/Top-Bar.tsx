@@ -58,7 +58,7 @@ function Top_Bar() {
         throw new Error("Failed to fetch courses");
       }
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setdataQuery(data.data);
     } catch (error) {
       console.log(error);
@@ -71,7 +71,7 @@ function Top_Bar() {
     if (debouncedSearchTerm) {
       handelsubmit();
       setIsBlurred(true);
-      console.log("Fetching data for:", debouncedSearchTerm);
+      // console.log("Fetching data for:", debouncedSearchTerm);
     } else {
       setdataQuery([]);
       setIsBlurred(false);
@@ -133,7 +133,7 @@ function Top_Bar() {
             <Menu
               className="h-5 w-5"
               onClick={() => {
-                console.log("hey bro ");
+                // console.log("hey bro ");
               }}
             />
             <span className="sr-only">Toggle navigation menu</span>

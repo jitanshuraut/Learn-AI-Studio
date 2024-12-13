@@ -82,9 +82,22 @@ export const PPT_generator = async (current_content: string, current_module: str
     }
 
     const data = await response.json();
-    console.log(data);
 
-    const slides = JSON.parse(data.response.slides);
+    let slides;
+    try {
+      // Directly assign the slides object without parsing
+      slides = data.response.slides;
+      if (typeof slides !== 'object') {
+        throw new Error("Slides data is not an object");
+      }
+    } catch (e) {
+      // console.log("Error processing slides data");
+      // console.log(data);
+      throw new Error("Invalid format in slides data");
+    }
+
+    // console.log(slides);
+
 
     const pptx = new pptxgen();
     const processSlideData = (slideData: any) => {
@@ -109,7 +122,7 @@ export const PPT_generator = async (current_content: string, current_module: str
       slides.forEach(processSlideData);
     } else {
       processSlideData(slides);
-   }
+    }
 
     pptx.writeFile({ fileName: `${current_module}.pptx` });
   } catch (error) {

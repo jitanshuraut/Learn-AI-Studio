@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ query: data.query, content: data.content })
+            body: JSON.stringify({ query: data.query })
         });
         const response = await result.json();
 

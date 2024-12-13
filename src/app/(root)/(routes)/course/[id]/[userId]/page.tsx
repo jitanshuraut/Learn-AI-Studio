@@ -40,13 +40,13 @@ const fetchData = async ({
     });
     const endTime = performance.now(); // End time
     const duration = endTime - startTime; // Calculate duration
-    console.log(`API call took ${duration.toFixed(2)}ms`);
+    // console.log(`API call took ${duration.toFixed(2)}ms`);
     if (!response.ok) {
       throw new Error("Failed to fetch courses");
     }
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("Query submitted:", query);
+    // console.log("Query submitted:", query);
     setAnswer("");
     setQueryFlag(true);
     const response = await fetch(`/api/query`, {
@@ -92,12 +92,11 @@ const Home: React.FC = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: query,
-        content: current_content,
+        query: query
       }),
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     setAnswer(data.response);
     setQueryFlag(false);
   };
@@ -107,6 +106,7 @@ const Home: React.FC = () => {
     setPPTFlag(true);
     // const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
     // await sleep(10000); // Sleep for 10 seconds
+    console.log("PPT submitted:");
     PPT_generator(current_content, current_module);
     setPPTFlag(false);
   };
@@ -123,8 +123,8 @@ const Home: React.FC = () => {
       const parsedJson = JSON.parse(jsonString);
       const { course, coursestructure } = parsedJson;
       const coursestructure_new = JSON.parse(coursestructure);
-      console.log("form coursestructure_new");
-      console.log(coursestructure_new);
+      // console.log("form coursestructure_new");
+      // console.log(coursestructure_new);
       const daysWithModules = extractDays(coursestructure_new);
 
       const fetchCourseData = async () => {
@@ -171,11 +171,11 @@ const Home: React.FC = () => {
                 }
               });
 
-              console.log(selectedDayData);
+              // console.log(selectedDayData);
             }
           }
           setLoading(false);
-          console.log(modulesData);
+          // console.log(modulesData);
         } catch (error) {
           console.error("Error fetching course data:", error);
           setLoading(false);
@@ -183,7 +183,7 @@ const Home: React.FC = () => {
       };
 
       fetchCourseData();
-      console.log(selectedDay);
+      // console.log(selectedDay);
     } else {
       try {
         const getCourse = async () => {
@@ -198,7 +198,7 @@ const Home: React.FC = () => {
           });
           // console.log(response);
           const data = await response.json();
-          console.log(data);
+          // console.log(data);
           const data_localstorage = {
             course: courseid,
             coursestructure: data.structure,

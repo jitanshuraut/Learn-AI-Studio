@@ -56,7 +56,7 @@ export function Placeholders() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
-      console.log(e.target.files[0].name);
+      // console.log(e.target.files[0].name);
     }
   };
 
@@ -138,8 +138,8 @@ export function Placeholders() {
           setcourse({});
         } else {
           setErrorMessage(null);
-          console.log(typeof data);
-          console.log(data);
+          // console.log(typeof data);
+          // console.log(data);
           setcourse(data);
         }
         setGenerating(false);
@@ -205,7 +205,7 @@ export function Placeholders() {
     }
 
     if (Object.keys(course).length > 0) {
-      console.log(course);
+      // console.log(course);
       return (
         <div className="border-2 w-[90%] mx-auto p-4 rounded-md">
           <div className="flex justify-between md:flex-row flex-col my-2">

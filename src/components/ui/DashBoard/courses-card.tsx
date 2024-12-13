@@ -39,7 +39,7 @@ const SetData = async (courseId: string, archive: number) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log("Response data:", data);
+    // console.log("Response data:", data);
   } catch (error) {
     console.error("Error occurred:", error);
   }

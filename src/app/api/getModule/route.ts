@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { db } from "@/lib/db"
 import { redis } from "@/lib/redis";
+import * as msgpackr from 'msgpackr';
 
 function transformColorToH1(htmlString: string): string {
 
@@ -22,7 +23,9 @@ function transformColorToH1(htmlString: string): string {
         }
     );
 
-    return finalHtml;
+    const finalHtmlWithBr = finalHtml.replace(/<\/p>/gi, '</p><br>');
+
+    return finalHtmlWithBr;
 }
 
 export async function POST(req: NextRequest) {
@@ -87,8 +90,10 @@ export async function POST(req: NextRequest) {
         });
 
 
-        const response = await result.json();
-        console.log("Response from server:", response);
+
+        const arrayBuffer = await result.arrayBuffer();
+        const response = msgpackr.unpack(new Uint8Array(arrayBuffer));
+        // console.log("Response from server:", response);
         let text: any = response.content.replace(/```(html|json|[a-zA-Z]*)|```/g, "");
         text = transformColorToH1(text);
         console.log("Response from server:", text);
