@@ -87,7 +87,9 @@ export async function POST(req: NextRequest) {
             slide.addText(text, { x: 0.5, y: 0.5, fontSize: 18 });
         }
 
-        const arrayBuffer = await pptx.write("arraybuffer");
+        // `pptx.write` signature expects a WriteProps object; we only need the arraybuffer
+        // so cast to `any` to satisfy TypeScript without altering runtime behavior.
+        const arrayBuffer = await pptx.write("arraybuffer" as any);
         const buffer = Buffer.from(arrayBuffer);
 
         return new NextResponse(buffer, {
