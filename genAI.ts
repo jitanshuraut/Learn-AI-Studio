@@ -27,12 +27,14 @@ const safetySetting = [
     },
 ];
 
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySetting });
-const modelEmbedding = genAI.getGenerativeModel({ model: "text-embedding-004", taskType: "SEMANTIC_SIMILARITY", output_dimensionality: 768 });
+const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview", safetySetting });
+const modelEmbedding = genAI.getGenerativeModel({
+    model: "gemini-embedding-001"
+});
 const client = new Pinecone({
     apiKey: process.env.PINECONE || '',
 })
-const vectorDimensions = 768;
+const vectorDimensions = 3072;
 (async function () {
     try {
         await createPineconeIndex(client, "course", vectorDimensions);

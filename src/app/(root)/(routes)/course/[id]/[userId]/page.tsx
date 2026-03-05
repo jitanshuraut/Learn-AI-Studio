@@ -334,7 +334,7 @@ const Home: React.FC = () => {
                   </div>)
               }
             </div>
-            <div onClick={handleOpenModal} className="flex justify-between bg-[#8678F9] p-2 m-1 border rounded-md items-center cursor-pointer  w-full">
+            {/* <div onClick={handleOpenModal} className="flex justify-between bg-[#8678F9] p-2 m-1 border rounded-md items-center cursor-pointer  w-full">
               <button className="mx-2">Chat with Document</button>
               <Image
                 className="rounded-full bg-white p-1 mx-2"
@@ -344,7 +344,7 @@ const Home: React.FC = () => {
                 src="/chat_logo.svg"
               />
 
-            </div>
+            </div> */}
             <h1 className="my-2 font-bold">Modules</h1>
             <div className="bg-primary-foreground flex flex-col z-50 p-4 rounded-md w-full">
               {daysWithModules

@@ -7,13 +7,20 @@ export const queryPineconeVectorStore = async (
     question: any
 ) => {
     const index = client.Index(indexName);
-    const queryEmbedding = await modelEmbedding.embedContent(question)
+
+    const queryEmbedding = await modelEmbedding.embedContent({
+        content: { parts: [{ text: question }], role: "user" },
+        taskType: "SEMANTIC_SIMILARITY",
+        outputDimensionality: 3072,
+    });
+
     let queryResponse = await index.query({
         vector: queryEmbedding.embedding.values,
         topK: 10,
         includeValues: true,
         includeMetadata: true,
     });
+
     return queryResponse;
 };
 

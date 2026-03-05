@@ -15,7 +15,7 @@
     "@hookform/resolvers": "^3.3.4",
     "@neondatabase/serverless": "^0.9.1",
     "@pinecone-database/pinecone": "^3.0.0",
-    "@prisma/client": "^6.0.0",
+    "@prisma/client": "^5.13.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -33,7 +33,6 @@
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
-    "cheerio": "^1.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
@@ -69,7 +68,6 @@
     "resend": "^3.2.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "tesseract.js": "^5.1.1",
     "tsx": "^4.7.3",
     "uuid": "^9.0.1",
     "zod": "^3.23.8"
@@ -82,9 +80,10 @@
     "@types/react-dom": "^18",
     "@types/uuid": "^9.0.8",
     "postcss": "^8",
-    "prisma": "^6.0.0",
+    "prisma": "^5.13.0",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "yarn@4.7.0+sha512.5a0afa1d4c1d844b3447ee3319633797bcd6385d9a44be07993ae52ff4facabccafb4af5dcd1c2f9a94ac113e5e9ff56f6130431905884414229e284e37bb7c9"
 }

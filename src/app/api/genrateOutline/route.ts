@@ -1,13 +1,11 @@
 import { NextResponse, NextRequest } from "next/server";
-import { CHECKER, GENRATE_OUTLINE, JSON_PARSER } from "../../../../promt";
+import { CHECKER, GENRATE_OUTLINE } from "../../../../promt";
 import { model } from "../../../../genAI";
 import { db } from "@/lib/db"
 import { extractAndParseJSON, ModuleCreator } from "@/lib/jsonParser"
 import { ModuleData, CourseStatus } from "@/types"
 import { updatePinecone } from "@/lib/pineconeDB";
 import { client } from "../../../../genAI";
-
-
 
 async function storeModuleData(modules: ModuleData[] | null, courseId: string) {
 
@@ -16,7 +14,7 @@ async function storeModuleData(modules: ModuleData[] | null, courseId: string) {
     try {
       const createdModules = await db.module.createMany({
         data: modules.map(module => ({
-          courseId: courseId, 
+          courseId: courseId, // Assuming courseId is defined earlier in your code
           dayNumber: module.dayNumber,
           moduleNumber: module.moduleNumber,
           title: module.title,
@@ -33,10 +31,9 @@ async function storeModuleData(modules: ModuleData[] | null, courseId: string) {
 }
 
 
-
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  console.log(data);
+  const data = await req.json()
+  // console.log(data)
 
 
   try {
@@ -85,43 +82,29 @@ export async function POST(req: NextRequest) {
     const prompt = CHECKER(data.course);
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    console.log(response.text());
+    console.log(response.text())
     const text: CourseStatus | null = extractAndParseJSON(response.text());
 
 
     if (text?.safe) {
       const genrate_promt = GENRATE_OUTLINE(data.course);
-      const url = process.env.PYTHON_SERVER + "/v1/course-genration-outline";
-      const result = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ input_text: genrate_promt })
-      });
-      const response = await result.json();
-      const module_text = JSON.parse(response);
-      console.log("Parsed module_text:", module_text);
-      const ModuleText = ModuleCreator(module_text);
-      console.log("Module-----------");
+      const result = await model.generateContent(genrate_promt);
+      const response = await result.response;
+      const module_text = extractAndParseJSON(response.text());
+      const ModuleText = ModuleCreator(module_text)
+      console.log("Module-----------")
       console.log(ModuleText);
 
       const course = await db.course.create({
         data: {
           userId: data.userId,
           courseName: module_text?.name || "unknown",
-          domain: module_text.domain, 
+          domain: data.course,
           numberOfDays: (typeof module_text?.numberofdays === 'string' ? parseInt(module_text.numberofdays, 10) : module_text?.numberofdays) || 5,
-          Introduction: Array.isArray(module_text?.Introduction) ? module_text.Introduction[0] : "unknown",
+          Introduction: module_text?.Introduction[0] || "unknown",
           structure: JSON.stringify(module_text)
         },
-      });
-
-      console.log("userId:", data.userId);
-      console.log("courseName:", module_text?.name || "unknown");
-      console.log("numberOfDays:", (typeof module_text?.numberofdays === 'string' ? parseInt(module_text.numberofdays, 10) : module_text?.numberofdays) || 5);
-      console.log("Introduction:", Array.isArray(module_text?.Introduction) ? module_text.Introduction[0] : "unknown");
-      console.log("structure:", JSON.stringify(module_text));
+      })
 
       const pinecone_data = {
         "id": course.id,
@@ -146,6 +129,5 @@ export async function POST(req: NextRequest) {
   }
 
 }
-
 
 

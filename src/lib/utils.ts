@@ -78,53 +78,19 @@ export const PPT_generator = async (current_content: string, current_module: str
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch PPT data");
+      throw new Error("Failed to fetch PPT file");
     }
 
-    const data = await response.json();
-
-    let slides;
-    try {
-      // Directly assign the slides object without parsing
-      slides = data.response.slides;
-      if (typeof slides !== 'object') {
-        throw new Error("Slides data is not an object");
-      }
-    } catch (e) {
-      // console.log("Error processing slides data");
-      // console.log(data);
-      throw new Error("Invalid format in slides data");
-    }
-
-    // console.log(slides);
-
-
-    const pptx = new pptxgen();
-    const processSlideData = (slideData: any) => {
-      Object.keys(slideData).forEach((slideKey) => {
-        const slide = pptx.addSlide();
-        slide.addText(slideData[slideKey].title, { x: 0.5, y: 0.8, fontSize: 24, bold: true });
-        slide.addText(slideData[slideKey].content, { x: 0.5, y: 2.1, fontSize: 18 });
-
-        if (Array.isArray(slideData[slideKey].bulletPoints)) {
-          const formattedBulletPoints = slideData[slideKey].bulletPoints.map((point: any) => ({
-            text: point,
-            options: { bullet: true, fontSize: 18 }
-          }));
-          slide.addText(formattedBulletPoints, { x: 0.5, y: 4.0 });
-        } else if (typeof slideData[slideKey].bulletPoints === 'string') {
-          slide.addText(slideData[slideKey].bulletPoints, { x: 0.5, y: 4.0, fontSize: 18 });
-        }
-      });
-    };
-
-    if (Array.isArray(slides)) {
-      slides.forEach(processSlideData);
-    } else {
-      processSlideData(slides);
-    }
-
-    pptx.writeFile({ fileName: `${current_module}.pptx` });
+    // server now returns a binary PPTX file
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${current_module}.pptx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
   } catch (error) {
     console.error("Error generating PPT:", error);
   }

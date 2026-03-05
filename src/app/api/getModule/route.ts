@@ -1,32 +1,10 @@
 import { NextResponse, NextRequest } from "next/server";
+import { GENRATE_MODULE } from "../../../../promt";
+import { model } from "../../../../genAI";
 import { db } from "@/lib/db"
 import { redis } from "@/lib/redis";
-import * as msgpackr from 'msgpackr';
-
-function transformColorToH1(htmlString: string): string {
-
-    const regex = /<(\w+)\b[^>]*style="([^"]*color:\s*#8678F9;[^"]*)"[^>]*>(.*?)<\/\1>/gi;
-
-    const transformedHtml = htmlString.replace(regex, (_, tag, style, content) => {
-        const h1Element = `<h1 style="color: #8678F9;font-size: 25px;margin-bottom: 15px;margin-top: 10px;font-weight: bold; ">${content}</h1>`;
-        return `<!--CHECK-HR-->\n${h1Element}`;
-    });
 
 
-    const finalHtml = transformedHtml.replace(
-        /<!--CHECK-HR-->\n(<h1[^>]*>.*?<\/h1>)/gi,
-        (match, h1Tag, offset, original) => {
-            const precedingContent = original.slice(0, offset);
-            const hasHr = /<hr\s*[^>]*>\s*$/i.test(precedingContent);
-            const styledHr = `<hr style="border: 2px solid #8678F9; border-radius: 5px; margin-bottom: 10px;margin-top: 10px;">`;
-            return hasHr ? h1Tag : `${styledHr}\n${h1Tag}`;
-        }
-    );
-
-    const finalHtmlWithBr = finalHtml.replace(/<\/p>/gi, '</p><br>');
-
-    return finalHtmlWithBr;
-}
 
 export async function POST(req: NextRequest) {
     const data = await req.json()
@@ -50,7 +28,6 @@ export async function POST(req: NextRequest) {
             },
             select: {
                 courseName: true,
-                domain: true,
             },
         });
 
@@ -77,26 +54,11 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ data: existingTopic.content });
         }
 
-        console.log(moduleData.title)
-        console.log(course.courseName)
-        console.log(course.domain)
-        const url = process.env.PYTHON_SERVER + "/v1/course-genration-module";
-        const result = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ module: moduleData.title, course: course.courseName, topic: course.domain })
-        });
 
-
-
-        const arrayBuffer = await result.arrayBuffer();
-        const response = msgpackr.unpack(new Uint8Array(arrayBuffer));
-        // console.log("Response from server:", response);
-        let text: any = response.content.replace(/```(html|json|[a-zA-Z]*)|```/g, "");
-        text = transformColorToH1(text);
-        console.log("Response from server:", text);
+        const prompt = GENRATE_MODULE(moduleData.title, course.courseName)
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text: any = response.text();
         const newTopic = await db.topic.create({
             data: {
                 moduleId: moduleData.id,
@@ -146,6 +108,5 @@ export async function POST(req: NextRequest) {
     }
 
 }
-
 
 
