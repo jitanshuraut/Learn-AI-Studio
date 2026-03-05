@@ -90,7 +90,10 @@ export async function POST(req: NextRequest) {
         // `pptx.write` signature expects a WriteProps object; we only need the arraybuffer
         // so cast to `any` to satisfy TypeScript without altering runtime behavior.
         const arrayBuffer = await pptx.write("arraybuffer" as any);
-        const buffer = Buffer.from(arrayBuffer);
+        // Buffer.from doesn't accept ArrayBuffer directly in its type definitions,
+        // so coerce to Uint8Array first. This mirrors Node runtime behavior.
+        const buffer = Buffer.from(arrayBuffer as ArrayBuffer);
+
 
         return new NextResponse(buffer, {
             headers: {

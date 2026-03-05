@@ -75,7 +75,7 @@ export function Placeholders() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            course: updatedQuery,
+            course: Query,
             userId: session.id,
           }),
         });
