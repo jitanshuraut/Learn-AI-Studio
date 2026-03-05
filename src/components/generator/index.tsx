@@ -8,9 +8,6 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { useCredit } from "../credit-provider";
 import { CourseCardProps } from "@/types";
 import { useBlur } from "@/components/ui/blur-provider";
-import { createWorker } from 'tesseract.js';
-import { Paperclip } from 'lucide-react';
-import { CircleX } from 'lucide-react';
 import { placeholders_arr } from "@/lib/utils";
 
 
@@ -46,19 +43,8 @@ export function Placeholders() {
   const [isDisable, setisDisable] = useState<boolean>(false);
   const [course, setcourse] = useState<{ [key: string]: any }>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [ocrResult, setOcrResult] = useState<string>('');
-  const [ocrStatus, setOcrStatus] = useState<string>('');
   const session: any = useCurrentUser();
   const { Credit, setCredit } = useCredit();
-
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-      // console.log(e.target.files[0].name);
-    }
-  };
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,32 +53,6 @@ export function Placeholders() {
       setErrorMessage(null);
     }
     setQuery(e.target.value);
-  };
-
-
-  const readImageText = async (): Promise<string> => {
-    if (!file) return '';
-
-    setOcrStatus('Processing...');
-    const worker = await createWorker('eng', 1, {
-      logger: m => console.log(m), // Add logger here
-    });
-
-    try {
-      const {
-        data: { text },
-      } = await worker.recognize(file);
-
-      setOcrResult(text);
-      setOcrStatus('Completed');
-      return text;
-    } catch (error) {
-      console.error(error);
-      setOcrStatus('Error occurred during processing.');
-      return '';
-    } finally {
-      await worker.terminate();
-    }
   };
 
 
@@ -106,14 +66,6 @@ export function Placeholders() {
     }
 
     setCredit(Credit - 1);
-
-    let updatedQuery = Query;
-    if (file) {
-      const ocrText = await readImageText();
-      const serializedOcrText = ocrText.replace(/\s+/g, ' ').trim();
-      updatedQuery += " Based on " + serializedOcrText;
-      setQuery(updatedQuery);
-    }
 
     const fetchData = async () => {
       try {
@@ -272,24 +224,9 @@ export function Placeholders() {
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={handleChange}
-        handleFileChange={handleFileChange}
         onSubmit={onSubmit}
         isDisabled={isDisable}
       />
-
-      {
-        file ?
-          <div className="flex justify-start w-2/5 border p-3 ">
-            <div className="flex justify-evenly items-center bg-[#8678F9] p-3 rounded-md">
-              <Paperclip size={15} className="mr-2" />
-              {file.name}
-              <div className="ml-2">
-                <CircleX className="cursor-pointer" onClick={() => { setFile(null) }} />
-              </div>
-            </div>
-          </div> : ""
-      }
-
 
       <div className="min-h-28 mt-5 w-full ">{renderContent()}</div>
     </div>

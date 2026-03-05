@@ -3,21 +3,20 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Paperclip } from 'lucide-react';
 
 export function PlaceholdersAndVanishInput({
   isDisabled,
   placeholders,
   onChange,
-  handleFileChange,
   onSubmit,
+  handleFileChange,
 
 }: {
   isDisabled: boolean;
   placeholders: string[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
 
@@ -35,7 +34,6 @@ export function PlaceholdersAndVanishInput({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const newDataRef = useRef<any[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [animating, setAnimating] = useState(false);
 
@@ -172,25 +170,6 @@ export function PlaceholdersAndVanishInput({
           ref={canvasRef}
         />
 
-
-        <button
-          disabled={!value}
-          type="button"
-          className="absolute cursor-pointer left-1 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full disabled:bg-gray-100 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          <Paperclip className="cursor-pointer" />
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept="image/*"
-            className="absolute inset-0 opacity-0 cursor-pointer"
-            onChange={(e) => {
-              handleFileChange(e);
-              setValue("");
-            }}
-          />
-        </button>
 
         <input
           onChange={(e) => {
