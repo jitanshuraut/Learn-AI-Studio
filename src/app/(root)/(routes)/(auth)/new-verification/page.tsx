@@ -3,19 +3,23 @@
 import { CardWrapper } from '@/components/auth/card-wrapper'
 import { newVerification } from '@/actions/new-verification'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 export default function NewVerificationForm() {
   const [error, setError] = useState<string | undefined>()
   const [success, setSuccess] = useState<string | undefined>()
   const [hasErrorToastShown, setHasErrorToastShown] = useState<boolean>(false)
+  const hasRun = useRef(false)
 
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
   const router = useRouter()
 
   const onSubmit = useCallback(() => {
+    if (hasRun.current) return
+    hasRun.current = true
+
     if (!token) {
       toast.error('No token provided')
       return

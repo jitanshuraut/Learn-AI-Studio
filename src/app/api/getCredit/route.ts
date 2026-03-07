@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: "User not found" });
         }
 
-        return NextResponse.json({ Credit: user.Credit });
+        return NextResponse.json({ Credit: user.Credit, LastCreditUpdate: user.LastCreditUpdate });
     }
     catch (err) {
         return NextResponse.json({ message: "Error" });

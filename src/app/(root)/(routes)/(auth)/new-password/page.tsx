@@ -1,67 +1,74 @@
 'use client'
 
 import { CardWrapper } from '@/components/auth/card-wrapper'
-import { newVerification } from '@/actions/new-verification'
+import { newPassword } from '@/actions/new-password'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 
-export default function NewVerificationForm() {
-  const [error, setError] = useState<string | undefined>()
-  const [success, setSuccess] = useState<string | undefined>()
-  const [hasErrorToastShown, setHasErrorToastShown] = useState<boolean>(false)
+export default function NewPasswordForm() {
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
   const router = useRouter()
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
     if (!token) {
       toast.error('No token provided')
       return
     }
-    newVerification(token)
-      .then((data) => {
-        if (data?.error) {
-          setTimeout(() => {
-            setError(data.error)
-          }, 500)
-        } else if (data?.success) {
-          toast.success(data.success)
-          setTimeout(() => {
-            router.push('/login')
-          }, 100)
-        }
-      })
-      .catch(() => {
-        const errorMessage = 'Something went wrong'
-        setError(errorMessage)
-      })
-  }, [token, router])
 
-  useEffect(() => {
-    onSubmit()
-  }, [onSubmit])
-
-  useEffect(() => {
-    if (error && !hasErrorToastShown) {
-      const timer = setTimeout(() => {
-        toast.error(error)
-        setHasErrorToastShown(true)
-      }, 100)
-      return () => clearTimeout(timer) // Cleanup the timeout if component unmounts
+    setLoading(true)
+    try {
+      const data = await newPassword({ password }, token)
+      if (data?.error) {
+        toast.error(data.error)
+      } else if (data?.success) {
+        toast.success(data.success)
+        router.push('/login')
+      }
+    } catch {
+      toast.error('Something went wrong')
+    } finally {
+      setLoading(false)
     }
-  }, [error, hasErrorToastShown])
+  }
 
   return (
     <CardWrapper
-      headerTitle="Verify your email"
+      headerTitle="Reset your password"
       backButtonLabel="Back to Login"
       backButtonHref="/login"
     >
-      <div className="flex items-center w-full justify-center">
-        {!success && !error && <p>Verifying...</p>}
-      </div>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <label htmlFor="password" className="text-sm font-medium">
+            New Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter new password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            required
+            minLength={8}
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+        >
+          {loading ? 'Resetting...' : 'Reset Password'}
+        </button>
+      </form>
     </CardWrapper>
   )
 }

@@ -119,7 +119,7 @@ export function Placeholders() {
             width="300"
             height="300"
             alt="Loading..."
-            src="/loader.gif"
+            src="/loader-2.gif"
           />
           <h1>Generating</h1>
         </div>
