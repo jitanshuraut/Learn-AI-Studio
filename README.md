@@ -1,5 +1,7 @@
 # Learn AI Studio
 
+<img width="1899" height="863" alt="image" src="https://github.com/user-attachments/assets/c9ee176a-ca5b-472c-8b13-2a0c73744f55" />
+
 > **AI-Powered Learning** — Transforming prompts into personalized learning experiences with AI.
 
 **[Live Demo →](https://learn-ai-studio.vercel.app/)**
@@ -178,7 +180,7 @@ git clone https://github.com/jitanshuraut/Learn-AI-Studio.git
 cd Learn-AI-Studio
 
 # Install dependencies
-bun install
+npm install
 
 # Set up environment variables
 cp .env.example .env
